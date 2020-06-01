@@ -5,13 +5,13 @@ package feature
 // @description
 // @version
 
-import(
+import (
 	"fmt"
 	"unicode/utf8"
 )
+
 func prettyLen(name string, l int) {
 	fmt.Printf("%s len = %d\n", name, l)
-
 }
 func LearnString() {
 	fmt.Printf("***string len analysis by %s***:\n\n", "wzz")
@@ -20,6 +20,8 @@ func LearnString() {
 		fmt.Printf("context:%s,len:%d, chars:%d\n",
 			s, len(s), utf8.RuneCountInString(s))
 	}
+	s := "hello!!!"
+	fmt.Printf("variable type s string: %T\n", s)
 	println("\n***iterating string***\n")
 	for _, c := range "小轩窗正梳妆" {
 		fmt.Printf("%c ", c)
