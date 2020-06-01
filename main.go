@@ -4,10 +4,7 @@ package main
 // @date  2020/5/31 01:51
 // @description
 // @version
-
-func foo() {
-
-}
+import "learn-go/feature"
 func main() {
-
+	feature.LearnString()
 }
