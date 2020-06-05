@@ -39,7 +39,3 @@ func LearnString() { // 注意，导出对象的注释一定要用该对象的�
 		fmt.Printf("%c ", c)
 	}
 }
-
-func prettyLen(name string, l int) {
-	fmt.Printf("%s len = %d\n", name, l)
-}

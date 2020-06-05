@@ -24,6 +24,8 @@ func main() {
 	feature.LearnString()
 	printSeparatingLine()
 	feature.LearnTypes()
+	printSeparatingLine()
+	feature.LearnSlice()
 }
 
 func printSeparatingLine() {
