@@ -28,6 +28,10 @@ func main() {
 	feature.LearnSlice()
 	printSeparatingLine()
 	feature.LearnRandom()
+	printSeparatingLine()
+	feature.LearnTime()
+	printSeparatingLine()
+	feature.LearnPointer()
 }
 
 func printSeparatingLine() {
