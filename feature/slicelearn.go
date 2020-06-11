@@ -8,7 +8,9 @@ import "fmt"
 // @version
 
 func LearnSlice() {
+	fmt.Println("modify with value & modify with pointer:")
 	var a []int
+	fmt.Println(a)
 	modifyWithV(a)
 	fmt.Println(a)
 	modifyWithP(&a)
@@ -17,9 +19,11 @@ func LearnSlice() {
 }
 
 func modifyWithV(s []int) []int {
+	fmt.Println("modify with V")
 	s = append(s, 1)
 	return s
 }
 func modifyWithP(s *[]int) {
+	fmt.Println("modify with P")
 	*s = append(*s, 1)
 }

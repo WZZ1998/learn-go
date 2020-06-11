@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"runtime"
+	"unicode"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -11,6 +12,7 @@ import (
 // @description golang name and type
 // @version
 type MI int32
+type Rope string
 
 var mii MI = 100
 
@@ -76,7 +78,18 @@ func LearnTypes() {
 	fmt.Printf("cx type : %T value = %v\n", cx, cx)
 	fmt.Printf("cx type : %T .4f value = %.4f\n", cx, cx)
 	fmt.Printf("cxr cxi type : %T %T value : %v %v\n", cxr, cxi, cxr, cxi)
-	nu := 127
-	fmt.Printf("nu type %T binary value: %b", nu, nu)
+	var nu int = 127
+	fmt.Printf("nu type %T binary value: %b\n", nu, nu)
+	fmt.Printf("^ with int nu %v bit value %b\n", ^nu, ^nu)
+	//这个value的二进制表示很有意思,绕开了位数的信息
+	//但是^还是按位取反,只不过是按照补码的表示按位取反
 
+	var myRope Rope = "Rope is a alias for string"
+	fmt.Println(myRope)
+
+	ch := '\u0534'
+	fmt.Printf("ch unicode point:\n"+
+		"type %T unicode %U value %v char %c\n", ch, ch, ch, ch)
+	fmt.Printf("\\u0534 isLetter: %t isDigit:%t isSpace:%t",
+		unicode.IsLetter(ch), unicode.IsDigit(ch), unicode.IsSpace(ch))
 }
