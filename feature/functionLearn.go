@@ -1,6 +1,10 @@
 package feature
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"strings"
+)
 
 // @author  wzz_714105382@icloud.com
 // @date  2020/6/15 01:26
@@ -29,6 +33,43 @@ func LearnFunction() {
 
 	df1()
 
+	fmt.Println("内置的new函数:") //返回的是指针
+	v := 3
+	vv := new(int)
+	*vv = 4
+	fmt.Printf("v %d addr %p vv %d addr %p\n", v, &v, *vv, vv)
+
+	res := calFibonacciTable(100)
+	n := 26
+	fmt.Printf("fibonachi %d :%d\n", n, res[n])
+	fmt.Printf("cal fibonachi with lambda %d : %d\n", n, calFibonacciWithLambda(n))
+
+	rawS := "杨柳岸dex@@@ql&&&,晓1aa风daw;daw;d残!!!!月"
+	ss := strings.Map(keepUCharAndComma, rawS) //如果rune在map函数返回了负值,那么新的字符串将会丢弃这个字符
+	fmt.Printf("map去除杂乱符号: rawS: %s ss: %s\n", rawS, ss)
+
+	func(a, b int) int { // 直接调用匿名函数
+		res := a + b
+		fmt.Printf("a = %d b = %d res = %d\n", a, b, res)
+		return res
+	}(3, 4)
+
+	// 闭包
+	fa := adder()
+	fmt.Printf("first +100:%d  ", fa(100))
+	fmt.Printf("second +100:%d  ", fa(100))
+	fmt.Printf("third +100:%d\n", fa(100))
+
+	log.SetFlags(log.Llongfile)
+	where := log.Print
+	where("Here!")
+
+}
+func keepUCharAndComma(rc rune) rune {
+	if rc == ',' || rc > 255 {
+		return rc
+	}
+	return -1
 }
 func getZero(int) int {
 	// 函数参数可以不具名
@@ -57,6 +98,7 @@ func f2(y int, args ...int) {
 }
 
 func df1() {
+	defer unTrace(trace("df1")) // 注意,这里会先调用trace
 	ti := 10000
 	defer ddf1(ti)
 	for i := 0; i <= 4; i++ {
@@ -67,4 +109,44 @@ func df1() {
 }
 func ddf1(i int) {
 	fmt.Println("in defer function ddf1! i : ", i)
+}
+func trace(s string) string {
+	fmt.Println("entering :", s)
+	return s
+}
+func unTrace(s string) {
+	fmt.Println("leaving :", s)
+}
+
+func calFibonacciTable(ma int) []int {
+	t := make([]int, 0, ma+1)
+	t = append(t, 0, 1, 1)
+	for i := 3; i <= ma; i++ {
+		t = append(t, t[i-1]+t[i-2])
+	}
+	return t
+}
+
+func adder() func(int) int {
+	var x int
+	var y int
+	y = 0
+	defer fmt.Printf("leaving adder :x addr %p y addr %p\n", &x, &y)
+	return func(delta int) int {
+		x += delta
+		return x
+	}
+}
+
+func calFibonacciWithLambda(n int) int {
+	if n == 1 || n == 2 {
+		return 1
+	}
+	p, q := 1, 1
+	cf := func() { p, q = q, p+q }
+	cnt := n - 2
+	for i := 0; i < cnt; i++ {
+		cf()
+	}
+	return q
 }
