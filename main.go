@@ -32,6 +32,10 @@ func main() {
 	feature.LearnTime()
 	printSeparatingLine()
 	feature.LearnPointer()
+	printSeparatingLine()
+	feature.LearnControl()
+	printSeparatingLine()
+	feature.LearnFunction()
 }
 
 func printSeparatingLine() {
