@@ -7,7 +7,10 @@ package main
 import (
 	"fmt"
 	"learn-go/feature"
+	"strings"
 )
+
+var sl = strings.Repeat("\n", 2) + strings.Repeat("-", 40)
 
 type F func()
 
@@ -19,25 +22,28 @@ func main() {
 	var mainFunc F = main
 	//var initFunc F = init 无法引用到init
 	//mainFunc() 引发死递归
-	fmt.Printf("function main type v initFunc: %T\n", mainFunc)
-	printSeparatingLine()
-	feature.LearnString()
-	printSeparatingLine()
-	feature.LearnTypes()
-	printSeparatingLine()
-	feature.LearnSlice()
-	printSeparatingLine()
-	feature.LearnRandom()
-	printSeparatingLine()
-	feature.LearnTime()
-	printSeparatingLine()
-	feature.LearnPointer()
-	printSeparatingLine()
-	feature.LearnControl()
-	printSeparatingLine()
-	feature.LearnFunction()
+	fmt.Printf("function main type v initFunc: %T\n\n", mainFunc)
+	learnFunctions := []func(){
+		feature.LearnString,
+		feature.LearnTypes,
+		feature.LearnRandom,
+		feature.LearnTime,
+		feature.LearnPointer,
+		feature.LearnControl,
+		feature.LearnFunction,
+		feature.LearnSlice}
+	for _, lf := range learnFunctions {
+		getSeparateLearnFunc(lf)()
+	}
+
 }
 
 func printSeparatingLine() {
-	fmt.Println("\n\n------------------------")
+	fmt.Println(sl)
+}
+func getSeparateLearnFunc(ff func()) func() {
+	return func() {
+		ff()
+		printSeparatingLine()
+	}
 }
