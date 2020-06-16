@@ -31,7 +31,8 @@ func main() {
 		feature.LearnPointer,
 		feature.LearnControl,
 		feature.LearnFunction,
-		feature.LearnSlice}
+		feature.LearnSlice,
+		feature.LearnMap}
 	for _, lf := range learnFunctions {
 		getSeparateLearnFunc(lf)()
 	}
