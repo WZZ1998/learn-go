@@ -32,7 +32,11 @@ func main() {
 		feature.LearnControl,
 		feature.LearnFunction,
 		feature.LearnSlice,
-		feature.LearnMap}
+		feature.LearnMap,
+		feature.LearnLib,
+		feature.LearnStruct,
+		feature.LearnMem,
+	}
 	for _, lf := range learnFunctions {
 		getSeparateLearnFunc(lf)()
 	}
