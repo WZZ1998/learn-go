@@ -10,7 +10,10 @@ import (
 	"strings"
 )
 
-var sl = strings.Repeat("\n", 2) + strings.Repeat("-", 40)
+var sepL = func() string {
+	fmt.Println("in main.go initializing var sepL")
+	return strings.Repeat("\n", 2) + strings.Repeat("-", 40)
+}()
 
 type F func()
 
@@ -36,19 +39,17 @@ func main() {
 		feature.LearnLib,
 		feature.LearnStruct,
 		feature.LearnMem,
+		feature.LearnStruct2,
+		feature.LearnMethod,
+		feature.LearnMethod2,
 	}
 	for _, lf := range learnFunctions {
-		getSeparateLearnFunc(lf)()
+		lf()
+		printSeparatingLine()
 	}
 
 }
 
 func printSeparatingLine() {
-	fmt.Println(sl)
-}
-func getSeparateLearnFunc(ff func()) func() {
-	return func() {
-		ff()
-		printSeparatingLine()
-	}
+	fmt.Println(sepL)
 }

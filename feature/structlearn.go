@@ -58,15 +58,12 @@ func LearnStruct() {
 	println("gn (addr of hx in opSomeUTS): ", gn)
 
 	stp := int(1e7 / 5)
-	var ir [1e7]int
+	var ir [1e7]int // 数组过大就会逃逸到堆内存
 	for ix := range ir {
 		if ix%stp == 0 {
 			println("ir int array ", ix, " addr", &ir[ix])
 		}
 	}
-
-	s5 := &UST{"Lucy", 33, 20000, 0.66} //简写,仍然会调用new
-	fmt.Printf("s5 type %T\n", s5)
 
 }
 func changeUSTName(u *UST) {
