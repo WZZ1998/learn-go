@@ -11,7 +11,7 @@ import (
 // @description
 // @version
 type myStruct struct {
-	Name string `json:"name"`
+	Name string `json:"Name"`
 	Id   int    `json:"id"`
 }
 

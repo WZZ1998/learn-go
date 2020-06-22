@@ -45,6 +45,7 @@ func main() {
 		feature.LearnInterface,
 		feature.LearnInterface2,
 		feature.LearnReflect,
+		feature.LearnReflect2,
 	}
 	for _, lf := range learnFunctions {
 		lf()

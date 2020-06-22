@@ -9,6 +9,19 @@ import (
 // @date  2020/6/22 05:14
 // @description
 // @version
+
+type myStruct5 struct {
+	Name  string
+	id    int
+	ratio float64
+}
+
+func (p *myStruct5) setId(id int) {
+	p.id = id
+}
+func (p *myStruct5) String() string {
+	return fmt.Sprintf("myStruct5:%s - %d - %.4f", p.Name, p.id, p.ratio)
+}
 func LearnReflect() {
 	var x = 3.1415
 	ty := reflect.TypeOf(x)
@@ -33,4 +46,48 @@ func LearnReflect() {
 	pva.SetFloat(6.28)
 	fmt.Println("x : ", x)
 
+	ms5 := &myStruct5{"Wa", 1, 3.00}
+	sec := interface{}(ms5)
+	ty2 := reflect.TypeOf(sec)
+	va2 := reflect.ValueOf(sec)
+
+	fmt.Printf("ty2 :%v kind: %v\n", ty2, ty2.Kind())
+	fmt.Println("get ele for va2")
+	va2 = va2.Elem()
+	fmt.Printf("va2 %v num of fields %d .Type().NumField() %d\n",
+		va2, va2.NumField(), va2.Type().NumField())
+	for i, fn := 0, va2.NumField(); i < fn; i++ {
+		fn := va2.Type().Field(i).Name //要想看到字段的名字,必须反射出类型
+		vf := va2.Field(i)
+		fmt.Printf("field %d :%s %v\n", i, fn, vf)
+	}
+	vf := va2.Field(0) // 只有导出的字段才能被反射修改
+	vf.SetString("changed! Ha!")
+	fmt.Println("va2 :", va2)
+
+	// 再次注意,绑定到指针和绑定到值差很多呀,反射也不能接受
+	va2 = reflect.ValueOf(sec) // va2这样是指针的反射类型
+	res := va2.Method(0).Call(nil)
+	fmt.Println("res:", res)
+
+	var im IM = &myStruct6{"myStruct6 topped:", &myStruct5{}}
+	fmt.Println("call m1 on m6:", im.m1())
+
+}
+
+type IM interface {
+	m1() string
+}
+
+func (p *myStruct5) m1() string {
+	return "yes, myStruct5 implements interface IM"
+}
+
+type myStruct6 struct {
+	ap string
+	IM
+}
+
+func (p *myStruct6) m1() string {
+	return p.ap + p.IM.m1()
 }

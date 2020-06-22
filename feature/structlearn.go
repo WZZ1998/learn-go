@@ -22,7 +22,7 @@ func LearnStruct() {
 	exSl = append(exSl, s0) // 这里也进行了值拷贝!
 	s0.name = "GreatJack"
 	exSl[1].name = "StupidJack"
-	fmt.Printf("exSl[0].name == s0.name: %t\n", s0.name == exSl[0].name)
+	fmt.Printf("exSl[0].Name == s0.Name: %t\n", s0.name == exSl[0].name)
 	// 同理,map和数组也会进行类似的值拷贝
 	for _, u := range exSl { // 值拷贝,不能修改切片内实例的属性
 		u.name = "Richard"

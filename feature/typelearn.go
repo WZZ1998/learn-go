@@ -9,7 +9,7 @@ import (
 
 // @author  wzz_714105382@icloud.com
 // @date  2020/6/1 22:46
-// @description golang name and type
+// @description golang Name and type
 // @version
 type MI int32
 type Rope string
