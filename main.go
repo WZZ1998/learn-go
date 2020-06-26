@@ -50,6 +50,7 @@ func main() {
 		//feature.LearnIO,
 		feature.LearnIO2,
 		//feature.LearnException,
+		feature.LearnConcurrent,
 	}
 	for _, lf := range learnFunctions {
 		lf()
