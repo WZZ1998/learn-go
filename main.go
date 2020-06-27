@@ -48,9 +48,11 @@ func main() {
 		feature.LearnReflect2,
 		feature.LearnSimpleFP,
 		//feature.LearnIO,
-		feature.LearnIO2,
+		//feature.LearnIO2,
+		//feature.LearnIO3,
 		//feature.LearnException,
 		feature.LearnConcurrent,
+		feature.LearnJson,
 	}
 	for _, lf := range learnFunctions {
 		lf()

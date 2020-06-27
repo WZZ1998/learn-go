@@ -37,7 +37,9 @@ func LearnSimpleFP() {
 		// 从新到旧排
 		return !(teslaCars[i].productionDate < teslaCars[j].productionDate)
 	})
-	fmt.Println("the new one:", teslaCars[0])
+	if len(teslaCars) > 0 {
+		fmt.Println("the new one:", teslaCars[0])
+	}
 
 }
 
