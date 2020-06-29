@@ -54,6 +54,8 @@ func main() {
 		feature.LearnJson,
 		feature.LearnCrypto,
 		feature.LearnException,
+		feature.LearnException2,
+		//feature.LearnSchedule,
 	}
 	for _, lf := range learnFunctions {
 		lf()

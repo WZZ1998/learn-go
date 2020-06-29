@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"runtime"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -40,6 +41,14 @@ func ttf1() {
 			fmt.Println("recover runtime panic:", err)
 			// recover 之后,如果有新的panic,那么这个被recover的panic结构体会被保留下来,
 			// 否则就要连着后面aborted的那个panic结构体,一起被清除
+
+			for i := 0; ; i++ {
+				pc, file, line, ok := runtime.Caller(i)
+				if !ok {
+					break
+				}
+				fmt.Println("\t", pc, file, line)
+			}
 		}
 		//panic("another panic right after recover")
 		// 比如,将这个panic挪到callWithRecover的defer中,panic报错只显示这一个panic
