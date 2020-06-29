@@ -7,6 +7,8 @@ package main
 import (
 	"fmt"
 	"learn-go/feature"
+	"reflect"
+	"runtime"
 	"strings"
 )
 
@@ -58,6 +60,8 @@ func main() {
 		//feature.LearnSchedule,
 	}
 	for _, lf := range learnFunctions {
+		fmt.Println(getFuncNameWithFV(lf))
+		fmt.Println()
 		lf()
 		printSeparatingLine()
 	}
@@ -66,4 +70,9 @@ func main() {
 
 func printSeparatingLine() {
 	fmt.Println(sepL)
+}
+func getFuncNameWithFV(fToGetName func()) string {
+	vPtr := reflect.ValueOf(fToGetName).Pointer()
+	pf := runtime.FuncForPC(vPtr)
+	return pf.Name()
 }

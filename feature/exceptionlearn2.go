@@ -3,6 +3,7 @@ package feature
 import (
 	"fmt"
 	"math/rand"
+	"os/exec"
 	"time"
 )
 
@@ -13,6 +14,16 @@ import (
 func LearnException2() {
 	errorHandler(myF)(0, 0)
 	testNilPerformance()
+	//runOuterCommand()
+}
+func runOuterCommand() {
+	llCommand := exec.Command("top")
+	err2 := llCommand.Run() // run的时候,当前goroutine会wait这个进程结束
+	//如果进程被kill,那么err2会包含  signal: killed
+	// 这里需要手动kill
+	if err2 != nil {
+		fmt.Println("err2 while run llCommand:", err2)
+	}
 }
 func testNilPerformance() {
 	var myNil interface{}
@@ -20,12 +31,12 @@ func testNilPerformance() {
 	for i := 0; i < 1e7; i++ {
 		t1(myNil)
 	}
-	fmt.Println("t1:", time.Since(st))
+	fmt.Println("!= nil then type assert-t1:", time.Since(st))
 	st = time.Now()
 	for i := 0; i < 1e7; i++ {
 		t2(myNil)
 	}
-	fmt.Println("t2:", time.Since(st))
+	fmt.Println("directly type assert-t2:   ", time.Since(st))
 }
 func errorHandler(f func(int, int)) func(int, int) {
 	// 很遗憾,函数并不会根据参数的类型协变,所以每个signature的函数都得定制一个errorHandler,导致不是太方便

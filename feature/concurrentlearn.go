@@ -2,8 +2,8 @@ package feature
 
 import (
 	"fmt"
+	"learn-go/utils"
 	"math/rand"
-	"sort"
 	"time"
 )
 
@@ -12,7 +12,7 @@ import (
 // @description
 // @version
 func LearnConcurrent() {
-	const tCnt int = 1e6
+	const tCnt int = 1e9
 	slBase := make([]int, tCnt)
 	slEx := make([]int, tCnt)
 	var v int
@@ -23,11 +23,11 @@ func LearnConcurrent() {
 	}
 	fmt.Println("origin data generated.")
 	st := time.Now()
-	sort.Ints(slBase)
+	//sort.Ints(slBase)
 	//time.Sleep(2 * time.Second)
 	timeUsedBase := time.Since(st)
 	st = time.Now()
-	myConcurrentQSort(slEx)
+	utils.MyConcurrentQSort(slEx)
 	timeUsedEx := time.Since(st)
 	flg := true
 	for i := 0; i < tCnt; i++ {
@@ -42,56 +42,4 @@ func LearnConcurrent() {
 		timeUsedEx.Seconds()/timeUsedBase.Seconds(),
 		flg)
 
-}
-func myConcurrentQSort(a []int) {
-	ll := len(a)
-	CQSort(0, ll-1, a)
-}
-
-func CQSort(start, endIncluded int, a []int) {
-	l := endIncluded - start + 1
-	if l <= 1 {
-		return
-	} else if l == 2 {
-		if a[start] > a[endIncluded] {
-			a[start], a[endIncluded] = a[endIncluded], a[start]
-		}
-		return
-	} else {
-		// 原地快排
-		middleIx := start + (l / 2)
-		fv := a[middleIx]
-		a[middleIx], a[endIncluded] = a[endIncluded], a[middleIx]
-		mp := start
-		for i := start; i <= endIncluded-1; i++ {
-			if a[i] < fv {
-				if i != mp {
-					a[mp], a[i] = a[i], a[mp]
-				}
-				mp++
-			}
-		}
-		a[mp], a[endIncluded] = a[endIncluded], a[mp]
-		splitPo := mp
-		if l >= 1e4 {
-			c1 := make(chan bool)
-			c2 := make(chan bool)
-
-			go func() {
-				CQSort(start, splitPo-1, a)
-				c1 <- true
-			}()
-			go func() {
-				CQSort(splitPo+1, endIncluded, a)
-				c2 <- true
-			}()
-			<-c1
-			<-c2
-			return
-		} else {
-			CQSort(start, splitPo-1, a)
-			CQSort(splitPo+1, endIncluded, a)
-			return
-		}
-	}
 }
