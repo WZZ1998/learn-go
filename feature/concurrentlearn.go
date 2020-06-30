@@ -12,7 +12,7 @@ import (
 // @description
 // @version
 func LearnConcurrent() {
-	const tCnt int = 1e9
+	const tCnt int = 1e6
 	slBase := make([]int, tCnt)
 	slEx := make([]int, tCnt)
 	var v int

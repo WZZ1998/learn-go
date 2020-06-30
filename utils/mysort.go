@@ -7,6 +7,9 @@ package utils
 
 // MyConcurrentQSort sorts the slice with quick sort by goroutines.
 func MyConcurrentQSort(a []int) {
+	if a == nil {
+		return
+	}
 	ll := len(a)
 	cQSort(0, ll-1, a)
 }
@@ -36,7 +39,7 @@ func cQSort(start, endIncluded int, a []int) {
 		}
 		a[mp], a[endIncluded] = a[endIncluded], a[mp]
 		splitPo := mp
-		if l >= 1<<16 {
+		if l >= 1e4 {
 			c1 := make(chan bool)
 			c2 := make(chan bool)
 

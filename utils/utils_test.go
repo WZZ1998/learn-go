@@ -14,24 +14,28 @@ import (
 // @description
 // @version
 func TestMyConcurrentQSort(t *testing.T) {
-	td, err := getRandomIntSliceWithL(1e8)
-	if err != nil {
-		t.Fail()
+	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
+	var testCases [][]int
+	for _, ll := range testSlLens {
+		td, err := getRandomIntSliceWithL(ll)
+		if err != nil {
+			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
+		}
+		testCases = append(testCases, td)
 	}
-	utils.MyConcurrentQSort(td)
-	if !sort.IntsAreSorted(td) {
-		t.Fail()
+	t.Log("testing validation of my quick sort implementation")
+	for ix, sl := range testCases {
+		utils.MyConcurrentQSort(sl)
+		verify(t, ix, sl)
 	}
 }
-
-func BenchmarkMyConcurrentQSort(b *testing.B) {
-	td, err := getRandomIntSliceWithL(1e7)
-	if err != nil {
-		b.Fail()
-	}
-	utils.MyConcurrentQSort(td)
-	if !sort.IntsAreSorted(td) {
-		b.Fail()
+func verify(t *testing.T, caseNo int, sliceToVerify []int) {
+	t.Helper()
+	// 该方法能够标记某个测试方法是一个helper函数
+	//当一个测试包在输出测试的文件和行号信息时，
+	//将会输出调用help函数的调用者的信息，而不是输出helper函数的内部信息
+	if !sort.IntsAreSorted(sliceToVerify) { // 没排序好
+		t.Errorf("case %d: length %d sort invalid.", caseNo, len(sliceToVerify))
 	}
 }
 func getRandomIntSliceWithL(lengthOfS int) ([]int, error) {
