@@ -14,6 +14,7 @@ import (
 // @description
 // @version
 func TestMyConcurrentQSort(t *testing.T) {
+	t.Log("testing validation of my quick sort implementation")
 	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
@@ -23,7 +24,6 @@ func TestMyConcurrentQSort(t *testing.T) {
 		}
 		testCases = append(testCases, td)
 	}
-	t.Log("testing validation of my quick sort implementation")
 	for ix, sl := range testCases {
 		utils.MyConcurrentQSort(sl)
 		verify(t, ix, sl)

@@ -12,12 +12,11 @@ import (
 // @date  2020/6/29 21:58
 // @description
 // @version
-const slToSortL int = 1000000
+const slToSortL int = 10000000
 
 var td, modSl []int
 
 func setup() error {
-	fmt.Println("set up for myQSort benchmark")
 	var err error
 	td, err = getRandomIntSliceWithL(slToSortL)
 	if err != nil {
@@ -27,7 +26,7 @@ func setup() error {
 	return nil
 }
 func TestMain(m *testing.M) {
-	fmt.Println("从这里开始的?")
+	fmt.Println("utils_test main started...")
 	errSetUp := setup()
 	if errSetUp != nil {
 		fmt.Println("error while setup:", errSetUp)
