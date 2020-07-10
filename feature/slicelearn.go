@@ -107,8 +107,10 @@ func LearnSlice() {
 	chs := []byte{'a', 'b', 'c', 'd', 'e'}
 	fmt.Println("chs: ", chs)
 	fmt.Println("重叠拷贝:")
-	copy(chs[2:5], chs[0:3])
+	cCnt := copy(chs[2:5], chs[0:3])
 	fmt.Println("chs: ", chs) // 注意,copy做的是这种整段的拷贝,而不是一个值一个值的拷贝
+	fmt.Println("elements copied:", cCnt)
+	// 看起来真的是整段拷贝,可能做了特殊处理, 或者直接用了额外的空间来腾挪拷贝
 	originS := []int{12, 45, 33, 44, 2, 1, 0, 888}
 	fmt.Printf("筛选slice元素 偶数: %v \n", sliceFilter(originS, func(i int) bool { return i%2 == 0 }))
 

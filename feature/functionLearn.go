@@ -98,7 +98,7 @@ func f2(y int, args ...int) {
 }
 
 func df1() {
-	defer unTrace(trace("df1")) // 注意,这里会先调用trace
+	defer myUnTrace(myTrace("df1")) // 注意,这里会先调用trace
 	ti := 10000
 	defer ddf1(ti)
 	for i := 0; i <= 4; i++ {
@@ -110,11 +110,11 @@ func df1() {
 func ddf1(i int) {
 	fmt.Println("in defer function ddf1! i : ", i)
 }
-func trace(s string) string {
+func myTrace(s string) string {
 	fmt.Println("entering :", s)
 	return s
 }
-func unTrace(s string) {
+func myUnTrace(s string) {
 	fmt.Println("leaving :", s)
 }
 

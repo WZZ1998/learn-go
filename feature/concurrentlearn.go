@@ -67,7 +67,8 @@ func LearnConcurrent() {
 		//runtime.GC() // 手动触发GC
 		//errWriteMem := pprof.WriteHeapProfile(mf)
 
-		// 这个地方只能写入当前堆空间的信息,并不能记录分配的历史;如果想看历史,可以使用go test或者http方法
+		// 这个地方只能写入当前堆空间的信息,并不能记录分配的历史;
+		//如果想看历史,可以使用go test或者http方法
 
 		//if errWriteMem != nil {
 		//	fmt.Println("write memory profile failed:", errWriteMem)

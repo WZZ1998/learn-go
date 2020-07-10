@@ -37,6 +37,14 @@ func testNilPerformance() {
 		t2(myNil)
 	}
 	fmt.Println("directly type assert-t2:   ", time.Since(st))
+	// 肯定是有差距,但是貌似不大
+	// != nil then type assert-t1: 27.619883ms
+	//directly type assert-t2:    40.377385ms
+
+	// 网上有文章说, 作为参数传递然后调用,具体类型最快,空接口转换至具体类型次之,直接传递接口又次之,空接口转换至接口最慢
+	// 不过权衡很重要, 性能数据也可能随着优化发生变化,有待考证
+
+	// 另外,使用指针实现接口性能通常比较好
 }
 func errorHandler(f func(int, int)) func(int, int) {
 	// 很遗憾,函数并不会根据参数的类型协变,所以每个signature的函数都得定制一个errorHandler,导致不是太方便
