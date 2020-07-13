@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"learn-go/utils"
 	"math/rand"
-	"os"
 	"runtime"
-	"runtime/pprof"
 	"sort"
 	"time"
 )
@@ -44,18 +42,18 @@ func LearnConcurrent() {
 		for i := 0; i < pCnt; i++ {
 			slRea[i] = rand.Int()
 		}
-		pth := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqcpu.prof"
-		cf, _ := os.OpenFile(pth,
-			os.O_WRONLY|os.O_CREATE|os.O_TRUNC,
-			0644,
-		)
-		defer cf.Close()
-		errStartProf := pprof.StartCPUProfile(cf)
-		if errStartProf != nil {
-			fmt.Println("start prof failed:", errStartProf)
-			return
-		}
-		defer pprof.StopCPUProfile()
+		//pth := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqcpu.prof"
+		//cf, _ := os.OpenFile(pth,
+		//	os.O_WRONLY|os.O_CREATE|os.O_TRUNC,
+		//	0644,
+		//)
+		//defer cf.Close()
+		//errStartProf := pprof.StartCPUProfile(cf)
+		//if errStartProf != nil {
+		//	fmt.Println("start prof failed:", errStartProf)
+		//	return
+		//}
+		//defer pprof.StopCPUProfile()
 		utils.MyConcurrentQSort(slRea)
 
 		//pth2 := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqmem.prof"

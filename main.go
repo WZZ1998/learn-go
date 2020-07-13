@@ -40,7 +40,6 @@ func main() {
 		feature.LearnMap,
 		feature.LearnLib,
 		feature.LearnStruct,
-		feature.LearnMem,
 		feature.LearnStruct2,
 		feature.LearnMethod,
 		feature.LearnMethod2,
@@ -58,6 +57,8 @@ func main() {
 		feature.LearnException,
 		feature.LearnException2,
 		//feature.LearnSchedule,
+		feature.LearnMem,
+		feature.LearnMem2,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))
