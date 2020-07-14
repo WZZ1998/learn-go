@@ -2,7 +2,6 @@ package feature
 
 import (
 	"fmt"
-	"unsafe"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -79,6 +78,8 @@ func LearnMem2() {
 	myC := 2
 	print("myC addr:")
 	println(&myC)
+	foobar(myC)
+
 	var inx interface{} = myC // 发生了值拷贝!如果myC是个很大的对象,问题就很严重
 	println("direct convert:", interface{}(myC))
 	// 即使是这样直接转换,还是会做值拷贝
@@ -90,7 +91,7 @@ func LearnMem2() {
 	con = 1
 	print("myCf:")
 	println(myC)
-	fmt.Print("myC: &d\n", myC)
+	fmt.Printf("myC: %d\n", myC)
 
 	// 千万注意值拷贝问题,不要直接把值赋给接口
 	// 调用方法,如果receiver是值类型,那么也会进行值拷贝
@@ -105,8 +106,8 @@ func escF(st ST) *ST {
 	println(&ttt)
 	print("st addr:")
 	println(&st)
-	p := uintptr(unsafe.Pointer(&ttt))
-	dumpMemoryWithUnsafe(p, p+64, 8)
+	//p := uintptr(unsafe.Pointer(&ttt))
+	//dumpMemoryWithUnsafe(p, p+64, 8)
 
 	//ttt addr:0xc0002bbca8
 	//st addr:0xc00000d060
@@ -140,4 +141,28 @@ func showInterfaceArg(in myI) {
 	concrete.name = "XXX"
 	print("concrete addr:")
 	println(&concrete)
+}
+
+type NT struct {
+	i   interface{}
+	idp *int
+}
+
+func foobar(i interface{}) *NT {
+	print("in foobar():")
+	println(i)
+	ntp := &NT{}
+	ntp.i = i
+	//这逃逸分析没有想象中的厉害呀!
+	// 154行 ntp其实并没有逃逸,函数结束ntp就成垃圾了
+	// 但是由于155行赋值,编译器还是把i的实际数据放到堆了
+	// 可能开启inline之后能优化掉吧
+
+	x := 1000 // 这种情况下,x 必须分配到堆了
+	// 注意,如果NT的属性是值类型,那么拷贝的时候可能原始的变量并不需要分配到堆
+	println("x addr:", &x)
+	ntp.idp = &x
+	// 同样的, 这里的x本身也可以分配在栈上,因为ntp函数结束即成为垃圾
+	// 但是目前的go 1.14 的逃逸分析 darwin环境,还是把x放到了堆上
+	return nil
 }

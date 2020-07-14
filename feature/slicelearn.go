@@ -2,9 +2,7 @@ package feature
 
 import (
 	"fmt"
-	"math/rand"
 	"sort"
-	"time"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -52,34 +50,10 @@ func LearnSlice() {
 	ori[0] = -9999
 	fmt.Printf("ori %v des %v noo %v\n", ori, des, noo) // 因此,三者各不相同
 
-	fmt.Println("copy slice: append v.s. copy:")
-	var sr []int
-	srLen := 100000
-	testTimes := 1000
-	rand.Seed(int64(int(time.Now().Nanosecond())))
-	for i := 0; i < srLen; i++ {
-		sr = append(sr, rand.Int())
-	}
-	fmt.Println("HEATING:test copy with copy, useless time :", testCopy(sr, copyWithCopy, testTimes))
-	fmt.Println("HEATING:test copy with append, useless time :", testCopy(sr, copyWithAppend, testTimes))
-	fmt.Printf("testTimes %d srLen %d date&time: %v\n", testTimes, srLen, time.Now().Format(time.RFC822))
-	fmt.Println("test copy with append, time :", testCopy(sr, copyWithAppend, testTimes))
-	fmt.Println("test copy with copy, time :", testCopy(sr, copyWithCopy, testTimes))
-	//testTimes 1000 srLen 128 date&time: 11 Jun 20 23:56 CST
-	//test copy with append, time : 841.734µs
-	//test copy with copy, time : 1.328477ms
-
-	//testTimes 1000 srLen 100000 date&time: 11 Jun 20 23:58 CST
-	//test copy with append, time : 138.704941ms
-	//test copy with copy, time : 97.470128ms
-
-	// 数组长度小的时候,append快,较大的时候copy快
-	//可能和append的扩容机制有关
-
 	s1 := make([]int, 0, 1024)
 	fmt.Println("s1 len before [:cap(s1)]:", len(s1))
-	s1 = s1[:cap(s1)]
-	// s1 = s1[:2*cap(s1)] panic
+	s1 = s1[:cap(s1)] // 直接增长
+	// s1 = s1[:2*cap(s1)] // panic
 	fmt.Println("s1 len after [:cap(s1)]:", len(s1))
 
 	s2 := make([][]int, 2)
@@ -149,26 +123,6 @@ func modifyWithV(s []int) []int {
 func modifyWithP(s *[]int) {
 	fmt.Println("modify with P")
 	*s = append(*s, 777) // 注意这里写入了之前已经写入过的位置
-}
-
-func copyWithCopy(sr []int) []int {
-	var de []int
-	de = append(de, sr...)
-	return de
-}
-
-func copyWithAppend(sr []int) []int {
-	de := make([]int, len(sr))
-	copy(de, sr)
-	return de
-}
-func testCopy(sr []int, fff func([]int) []int, testTimes int) time.Duration {
-	st := time.Now()
-	for i := 0; i < testTimes; i++ {
-		_ = fff(sr)
-	}
-	t := time.Since(st)
-	return t
 }
 
 func sliceFilter(origin []int, f func(int) bool) []int {
