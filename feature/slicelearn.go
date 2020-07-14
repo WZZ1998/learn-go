@@ -130,6 +130,15 @@ func LearnSlice() {
 	fmt.Printf("unsortedNums now : %v, isSorted: %t\n", unsortedNums, sort.IntsAreSorted(unsortedNums))
 	fmt.Printf("index of 394 : %d\n", sort.SearchInts(unsortedNums, 394))
 	// 注意,search做二分查找,切片必须是排好序的!必须排好序! 如果没有查到,就返回slice的长度
+
+	stBytes := []byte("") //  现在stBytes的cap是0了,历史上cap=32的情况被干掉了
+	//fmt.Println(stBytes)  // 一句话让stBytes分配到堆
+	fmt.Println("empty string to []byte cap:", cap(stBytes))
+	ss1 := append(stBytes, 'a')
+	ss2 := append(stBytes, 'b')
+	print("s11 ss2 :")
+	println(ss1, ss2)
+	// ss1 和 ss2 指向不同的底层空间
 }
 
 func modifyWithV(s []int) []int {

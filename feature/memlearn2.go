@@ -1,6 +1,9 @@
 package feature
 
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
 
 // @author  wzz_714105382@icloud.com
 // @date  2020/7/11 01:18
@@ -29,7 +32,6 @@ type myI interface {
 }
 
 func LearnMem2() {
-
 	myS := ST{name: "origin"}
 	fmt.Printf("myS ST value addr %p \n", &myS)
 	myS.setName("peter")
@@ -62,7 +64,7 @@ func LearnMem2() {
 	ce := ST{} // 值类型
 	print("ce addr:")
 	println(&ce)
-	showInterfaceArg(&ce)
+	showInterfaceArg(&ce) // 传入指针,创建接口类型,不做值拷贝
 	fmt.Println()
 
 	var myI2 myI = ce // 呵呵,这里居然发生了结构体拷贝!
@@ -78,12 +80,43 @@ func LearnMem2() {
 	print("myC addr:")
 	println(&myC)
 	var inx interface{} = myC // 发生了值拷贝!如果myC是个很大的对象,问题就很严重
-	print(inx)
+	println("direct convert:", interface{}(myC))
+	// 即使是这样直接转换,还是会做值拷贝
+	print("inx:")
 	println(inx)
+	print("type assert addr:")
+	con, _ := inx.(int) // 这里自然也是值拷贝
+	println(&con)
+	con = 1
+	print("myCf:")
+	println(myC)
+	fmt.Print("myC: &d\n", myC)
 
 	// 千万注意值拷贝问题,不要直接把值赋给接口
 	// 调用方法,如果receiver是值类型,那么也会进行值拷贝
 
+	escF(ST{t: 20200714, name: "esc"}) // 这个地方逃逸了吗?
+	// 函数调用的字面量实参,确实在栈里存在了,栈中还有堆中形参的地址
+
+}
+func escF(st ST) *ST {
+	ttt := 0
+	print("ttt addr:")
+	println(&ttt)
+	print("st addr:")
+	println(&st)
+	p := uintptr(unsafe.Pointer(&ttt))
+	dumpMemoryWithUnsafe(p, p+64, 8)
+
+	//ttt addr:0xc0002bbca8
+	//st addr:0xc00000d060
+	//addr v [c0002bbcd0] deref int        18717215 hexi 11d9a1f
+	//addr v [c0002bbcc8] deref int        20200714 hexi 1343d0a  这里! !
+	//addr v [c0002bbcc0] deref int        18301630 hexi 11742be
+	//addr v [c0002bbcb8] deref int    824636587528 hexi c0002bbe08
+	//addr v [c0002bbcb0] deref int    824633774176 hexi c00000d060
+	//addr v [c0002bbca8] deref int               0 hexi 0
+	return &st
 }
 
 var ip *int // 必须得在堆上
@@ -102,7 +135,8 @@ func showInterfaceArg(in myI) {
 	print("arg interface:")
 	println(in)
 	in.foo()
-	concrete, _ := in.(ST) // 这里类型断言,也做了结构体拷贝,concrete并不是原来的那个值了
+	concrete, _ := in.(ST) // 这里类型断言,也做了结构体拷贝! // concrete并不是原来创建的那个值了
+	// concrete本身就是个值类型,值类型赋给值类型,自然是值拷贝
 	concrete.name = "XXX"
 	print("concrete addr:")
 	println(&concrete)
