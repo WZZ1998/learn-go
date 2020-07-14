@@ -99,6 +99,12 @@ func LearnMem2() {
 	escF(ST{t: 20200714, name: "esc"}) // 这个地方逃逸了吗?
 	// 函数调用的字面量实参,确实在栈里存在了,栈中还有堆中形参的地址
 
+	x3 := 20200714 // x3这个变量还是在栈上
+	iSl := make([]interface{}, 6)
+	iSl[1] = x3 // 这个地方,隐含的值拷贝, 值拷贝的东西去堆上了
+	println("x3 addr:", &x3)
+	println("isl[1]:", iSl[1])
+
 }
 func escF(st ST) *ST {
 	ttt := 0

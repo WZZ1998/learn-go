@@ -1,4 +1,4 @@
-package utils_test
+package feature_test
 
 import (
 	"math/rand"
@@ -8,7 +8,7 @@ import (
 // @author  wzz_714105382@icloud.com
 // @date  2020/7/14 17:41
 // @description
-// @version 在书
+// @version
 const oLen = 1024 * 8
 
 func BenchmarkCopySlice(b *testing.B) {
@@ -58,8 +58,9 @@ func BenchmarkCopySlice(b *testing.B) {
 }
 
 // 结论: 切片很小时,copy稍有优势;随着切片长度增加,copy和打散append的性能差距基本可以忽略不计
+// 这还没有考虑,上面重置切片的时间消耗;因此,打散append和copy,各有各的用途,不用顾忌用哪一个
 
-// 测试环境 darwin go1.14 intel i7-6820HQ MacBook Pro Late 2016
+// 测试环境 darwin go1.14 intel i7-6820HQ MaBook Pro Late 2016
 //BenchmarkCopySlice
 //    BenchmarkCopySlice: slicecopybench_test.go:15: test original slice len: 64
 //BenchmarkCopySlice/BenchmarkCopySliceWithLoop
