@@ -19,6 +19,7 @@ type square struct {
 }
 
 type shape struct{}
+type uls struct{}
 
 func (sh *shape) area() float64 {
 	// 一个抽象类,不过接口这么强大,抽象类貌似没啥两点了
@@ -30,6 +31,10 @@ func (s *square) area() float64 {
 	return s.a * s.a
 }
 func LearnInterface() {
+
+	// var _ shaper = (*uls)(nil)
+	//用编译器检验某个struct是否实现了某个接口,有IDE的话用处不大
+
 	sq1 := &square{shape{}, 5}
 	var areaFl shaper
 	dynamicBindingInterface(&areaFl, sq1, &shape{})

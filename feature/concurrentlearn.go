@@ -14,7 +14,7 @@ import (
 // @description
 // @version
 func LearnConcurrent() {
-	const tCnt int = 1e6
+	const tCnt int = 8e5
 	slBase := make([]int, tCnt)
 	slEx := make([]int, tCnt)
 	var v int
@@ -37,7 +37,7 @@ func LearnConcurrent() {
 		sort.IntsAreSorted(slEx))
 	if runtime.GOOS == "darwin" {
 		fmt.Println("Run and generate pprof ana file.")
-		var pCnt int = 1e7
+		var pCnt int = 1e6
 		slRea := make([]int, pCnt)
 		for i := 0; i < pCnt; i++ {
 			slRea[i] = rand.Int()
