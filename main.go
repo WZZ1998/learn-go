@@ -56,10 +56,11 @@ func main() {
 		feature.LearnCrypto,
 		feature.LearnException,
 		feature.LearnException2,
-		//feature.LearnSchedule,
+		//feature.LearnSchedule, // 有for{} 除非trace,不要调用了
 		feature.LearnMem,
 		feature.LearnMem2,
 		//feature.LearnMem3,
+		feature.LearnGoroutine,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))

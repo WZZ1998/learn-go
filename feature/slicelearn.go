@@ -42,7 +42,9 @@ func LearnSlice() {
 	//arr2 := [...]int{91,92,93} 注意了!三个点是让编译器自己推算数据长度,但是arr2还是数组
 	//arr2 = append(arr2, 94) 不允许对数组进行append
 	ori := []int{1, 2, 3, 4, 5, 6, 7, 8}
-	ori2 := ori[0:3:6]
+	ori2 := ori[0:3:6] // 截取的cap,被append满了之后,会扩容并获得新的空间,不会使用原来的空间
+	// 因为cap是在截取的时候定的,仅以这个设定的cap为准(即使原来的底层数组还有空间)
+	// 如果截取的cap比原来的slice的cap大,那么直接panic
 	fmt.Printf("ori2: %v\n", ori2)
 	var des []int
 	des = append(des, ori...)
@@ -113,6 +115,15 @@ func LearnSlice() {
 	print("s11 ss2 :")
 	println(ss1, ss2)
 	// ss1 和 ss2 指向不同的底层空间
+
+	myArr1 := [6]int{1, 2, 3, 4, 5, 6}
+	fmt.Println("myArr1:", myArr1)
+	ssl1 := myArr1[0:2] // len 2 cap 6
+	// ssl1 := myArr1[0:2:2]
+	//len 2 cap 2 ,这样写下面就会panic,对切片进行切片,不能超过原来切片的cap范围!
+	fmt.Println("ssl1 myArr1[0:2] :", ssl1)
+	ssl2 := ssl1[0:6] // 可以直接切出来,即使ssl1的长度为2
+	fmt.Println("ssl2 ssl1[0:6] :", ssl2)
 }
 
 func modifyWithV(s []int) []int {

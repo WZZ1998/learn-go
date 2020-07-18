@@ -29,6 +29,22 @@ func TestMyConcurrentQSort(t *testing.T) {
 		verify(t, ix, sl)
 	}
 }
+func TestMyConcurrentQSortWithWG(t *testing.T) {
+	t.Log("testing validation of my quick sort implementation with wait group")
+	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
+	var testCases [][]int
+	for _, ll := range testSlLens {
+		td, err := getRandomIntSliceWithL(ll)
+		if err != nil {
+			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
+		}
+		testCases = append(testCases, td)
+	}
+	for ix, sl := range testCases {
+		utils.MyConcurrentQSortWithWG(sl)
+		verify(t, ix, sl)
+	}
+}
 func verify(t *testing.T, caseNo int, sliceToVerify []int) {
 	t.Helper()
 	// 该方法能够标记某个测试方法是一个helper函数

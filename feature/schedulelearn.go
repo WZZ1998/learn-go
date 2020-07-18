@@ -13,6 +13,7 @@ import (
 // @date  2020/6/29 04:14
 // @description
 // @version
+const profileDirPth = "/Users/wangzizhou/Downloads/learn-go-profiles"
 
 func LearnSchedule() {
 	if runtime.GOOS != "darwin" {
@@ -22,16 +23,15 @@ func LearnSchedule() {
 	oldMaxProcs := runtime.GOMAXPROCS(1)
 	fmt.Println("old Max Proc:", oldMaxProcs)
 	defer runtime.GOMAXPROCS(oldMaxProcs)
-	const profileDirPth = "/Users/wangzizhou/Downloads/learn-go-profiles"
 	tf, _ := os.Create(path.Join(profileDirPth, "scheTrace"))
 	defer tf.Close()
-	cc := make(chan int, 100)
+	//cc := make(chan int, 100)
 	if errT := trace.Start(tf); errT != nil {
 		fmt.Println("trace failed:", errT)
 	}
-	go producer(cc)
-	go consumer(cc)
-	go infiniteLoop() // hang住一个线程
+	//go producer(cc)
+	//go consumer(cc)
+	//go infiniteLoop() // hang住一个协程 // 无限死循环
 	time.Sleep(100 * time.Millisecond)
 	trace.Stop()
 }
