@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
-	"time"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -93,6 +92,5 @@ func LearnControl() {
 func alwaysTrue() bool  { return true }
 func alwaysFalse() bool { return false }
 func getRandInt200() int {
-	rand.Seed(int64(time.Now().Nanosecond()))
 	return rand.Intn(200)
 }

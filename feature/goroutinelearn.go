@@ -16,26 +16,28 @@ import (
 // @description
 // @version
 func LearnGoroutine() {
-	doTrace := true
-	fmt.Print("go max P:", runtime.GOMAXPROCS(-1))
-	fmt.Println(" CPU cnt:", runtime.NumCPU())
-	if doTrace {
-		trF, errT := os.Create(path.Join(profileDirPth, "goroutineCPU.trace"))
-		if errT != nil {
-			fmt.Println("trace file open failed:", errT)
-			return
+	if runtime.GOOS == "darwin" {
+		doTrace := true
+		fmt.Print("go max P:", runtime.GOMAXPROCS(-1))
+		fmt.Println(" CPU cnt:", runtime.NumCPU())
+		if doTrace {
+			trF, errT := os.Create(path.Join(profileDirPth, "goroutineCPU.trace"))
+			if errT != nil {
+				fmt.Println("trace file open failed:", errT)
+				return
+			}
+			if errStartTrace := trace.Start(trF); errStartTrace != nil {
+				fmt.Println("trace start error:", errStartTrace)
+				return
+			}
+			defer trace.Stop()
 		}
-		if errStartTrace := trace.Start(trF); errStartTrace != nil {
-			fmt.Println("trace start error:", errStartTrace)
-			return
-		}
-		defer trace.Stop()
-	}
 
-	for i := 0; i < 2; i++ {
-		st := time.Now()
-		runtime.Gosched() //yield CPU
-		fmt.Println("after schedule:", time.Since(st))
+		for i := 0; i < 2; i++ {
+			st := time.Now()
+			runtime.Gosched() //yield CPU
+			fmt.Println("after schedule:", time.Since(st))
+		}
 	}
 
 	ch := make(chan int)

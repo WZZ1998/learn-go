@@ -20,7 +20,7 @@ func init() {
 
 const (
 	maxIntRSliceLen          int = 4e9
-	rSliceLenConcurrentBound int = 8e4
+	rSliceLenConcurrentBound int = 2e5
 )
 
 func GetRandIntSliceOfLength(targetLen int) ([]int, error) {

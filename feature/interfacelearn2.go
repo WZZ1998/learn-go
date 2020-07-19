@@ -5,7 +5,6 @@ import (
 	"math"
 	"math/rand"
 	"sort"
-	"time"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -23,14 +22,6 @@ func LearnInterface2() {
 	fmt.Println("after sort rfp:", rfp)
 	fmt.Println("min in rfp:", min(rfp))
 
-	// sort
-	cnt := 100_0000
-	ints := make([]int, cnt)
-	for i := 0; i < cnt; i++ {
-		ints[i] = rand.Intn(1e12)
-	}
-	sort.Ints(ints)
-	fmt.Println("sort ints[0]:", ints[0])
 }
 
 type float64RArray struct {
@@ -52,8 +43,6 @@ func newRandomFloat64Array(cnt int) (*float64RArray, error) {
 	if cnt >= 50 {
 		return nil, fmt.Errorf("too big cnt:%d", cnt)
 	}
-	tn := time.Now().Nanosecond()
-	rand.Seed(int64(tn))
 	ar := &float64RArray{make([]float64, cnt)}
 	for i := 0; i < cnt; i++ {
 		ar.data[i] = round(rand.Float64(), 4)

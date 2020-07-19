@@ -3,7 +3,6 @@ package feature
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -41,9 +40,8 @@ func LearnMap() {
 
 	si := 2048
 	inm := make(map[int]int, si)
-	rand.Seed(int64(time.Now().Nanosecond()))
 	for i := 1; i <= si; i++ {
-		inm[i] = rand.Intn(1e6)
+		inm[i] = rand.Intn(8192)
 	}
 	a1, ok1 := inm[3000]
 	a2, ok2 := inm[2000]

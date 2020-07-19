@@ -1,7 +1,7 @@
 package feature_test
 
 import (
-	"math/rand"
+	"learn-go/utils"
 	"testing"
 )
 
@@ -13,9 +13,9 @@ const oLen = 1024 * 8
 
 func BenchmarkCopySlice(b *testing.B) {
 	b.Log("test original slice len:", oLen)
-	var ori []int
-	for i := 0; i < oLen; i++ {
-		ori = append(ori, rand.Int())
+	ori, errGetOri := utils.GetRandIntSliceOfLength(oLen)
+	if errGetOri != nil {
+		b.Fatal("Get origin data failed:", errGetOri)
 	}
 	dstLoo := make([]int, 0, oLen)
 	dstAppend := make([]int, 0, oLen)

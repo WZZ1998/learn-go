@@ -25,6 +25,14 @@ func BenchmarkGetRandInt(b *testing.B) {
 	}
 	//BenchmarkGetRandInt-8   	69230803	        16.8 ns/op
 }
+func BenchmarkGetRandIntWithLocalRand(b *testing.B) {
+	sc := rand.NewSource(time.Now().UnixNano())
+	localRa := rand.New(sc)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = localRa.Int()
+	}
+}
 
 const benchRISliceLen = 1e7
 

@@ -3,7 +3,6 @@ package feature
 import (
 	"fmt"
 	"learn-go/utils"
-	"math/rand"
 	"runtime"
 	"sort"
 	"time"
@@ -15,14 +14,13 @@ import (
 // @version
 func LearnConcurrent() {
 	const tCnt int = 8e5
-	slBase := make([]int, tCnt)
-	slEx := make([]int, tCnt)
-	var v int
-	for i := 0; i < tCnt; i++ {
-		v = rand.Int()
-		slBase[i] = v
-		slEx[i] = v
+	slBase, errGetOri := utils.GetRandIntSliceOfLength(tCnt)
+	if errGetOri != nil {
+		fmt.Println("get origin data error:", errGetOri)
+		return
 	}
+	slEx := make([]int, tCnt)
+	copy(slEx, slBase)
 	fmt.Println("origin data generated.")
 	st := time.Now()
 	sort.Ints(slBase)
@@ -38,10 +36,7 @@ func LearnConcurrent() {
 	if runtime.GOOS == "darwin" {
 		fmt.Println("Run and generate pprof ana file.")
 		var pCnt int = 1e6
-		slRea := make([]int, pCnt)
-		for i := 0; i < pCnt; i++ {
-			slRea[i] = rand.Int()
-		}
+		slRea, _ := utils.GetRandIntSliceOfLength(pCnt)
 		//pth := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqcpu.prof"
 		//cf, _ := os.OpenFile(pth,
 		//	os.O_WRONLY|os.O_CREATE|os.O_TRUNC,
