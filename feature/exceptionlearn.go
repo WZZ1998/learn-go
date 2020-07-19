@@ -66,6 +66,9 @@ func ttf1() {
 func ttf2() {
 	defer func() {
 		fmt.Println("defer call in ff2")
+		if errR1 := recover(); errR1 != nil {
+			fmt.Println("recover in ttf2:", errR1)
+		}
 	}()
 	//fmt.Println("recover:", recover()) 直接调用recover只返回nil,没有其他效果了
 	panic("deliberate panic!")

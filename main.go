@@ -57,7 +57,7 @@ func main() {
 		feature.LearnException,
 		feature.LearnException2,
 		//feature.LearnSchedule, // 有for{} 除非trace,不要调用了
-		feature.LearnMem,
+		//feature.LearnMem,
 		feature.LearnMem2,
 		//feature.LearnMem3,
 		feature.LearnGoroutine,

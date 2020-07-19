@@ -124,6 +124,19 @@ func LearnSlice() {
 	fmt.Println("ssl1 myArr1[0:2] :", ssl1)
 	ssl2 := ssl1[0:6] // 可以直接切出来,即使ssl1的长度为2
 	fmt.Println("ssl2 ssl1[0:6] :", ssl2)
+
+	sToCut := []int{1, 2, 3}
+	fmt.Println("sToCut:", sToCut)
+	fmt.Println("sToCut[3:]:", sToCut[3:]) // 这样的切片可以,返回空切片,但是[4:]就不行了
+	// 注意,冒号之前空默认值是0,冒号后默认值是原切片的len
+	// 切片只能向后伸展,在底层数组大的情况下,
+	// 切片: 首地址 长度 容量
+	// re-slice 就是重新调整三个变量(以[切片头索引:切片尾索引:容量尾索引]为方法)
+	// 必须满足: 1. 三个变量<=关系递增 2.三者 >= 0 而且 <= 原切片的cap
+	sToCut2 := make([]int, 20, 100)
+	fmt.Println("sToCut2 len cap:", len(sToCut2), cap(sToCut2))
+	sCut := sToCut2[40:45:60] // 三个值都可以超过原来的len,但是都不能超过原来的cap
+	fmt.Println("sToCut2[40:45:60] len cap:", len(sCut), cap(sCut))
 }
 
 func modifyWithV(s []int) []int {

@@ -1,12 +1,9 @@
 package utils_test
 
 import (
-	"fmt"
 	"learn-go/utils"
-	"math/rand"
 	"sort"
 	"testing"
-	"time"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -18,7 +15,7 @@ func TestMyConcurrentQSort(t *testing.T) {
 	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
-		td, err := getRandomIntSliceWithL(ll)
+		td, err := utils.GetRandIntSliceOfLength(ll)
 		if err != nil {
 			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
 		}
@@ -34,7 +31,7 @@ func TestMyConcurrentQSortWithWG(t *testing.T) {
 	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
-		td, err := getRandomIntSliceWithL(ll)
+		td, err := utils.GetRandIntSliceOfLength(ll)
 		if err != nil {
 			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
 		}
@@ -53,15 +50,4 @@ func verify(t *testing.T, caseNo int, sliceToVerify []int) {
 	if !sort.IntsAreSorted(sliceToVerify) { // 没排序好
 		t.Errorf("case %d: length %d sort invalid.", caseNo, len(sliceToVerify))
 	}
-}
-func getRandomIntSliceWithL(lengthOfS int) ([]int, error) {
-	if lengthOfS > 1e9 {
-		return nil, fmt.Errorf("length of int slice too big")
-	}
-	td := make([]int, lengthOfS)
-	rand.Seed(int64(time.Now().Nanosecond()))
-	for i := 0; i < lengthOfS; i++ {
-		td[i] = rand.Int()
-	}
-	return td, nil
 }

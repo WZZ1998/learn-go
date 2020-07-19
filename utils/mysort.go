@@ -6,33 +6,33 @@ import "sync"
 // @date  2020/6/29 16:23
 // @description
 // @version
-const concurrentLenBound = 2e3
+const concurrentLenBoundForMyQSort = 2e3
 
 // MyConcurrentQSort sorts the slice with quick sort by goroutines.
 func MyConcurrentQSort(a []int) {
 	if a == nil {
 		return
 	}
-	ll := len(a)
-	cQSort(0, ll-1, a)
+	cQSort(a)
 }
 
-func cQSort(start, endIncluded int, a []int) {
-	l := endIncluded - start + 1
-	if l <= 1 {
+func cQSort(a []int) {
+	lSli := len(a)
+	if lSli <= 1 {
 		return
-	} else if l == 2 {
-		if a[start] > a[endIncluded] {
-			a[start], a[endIncluded] = a[endIncluded], a[start]
+	} else if lSli == 2 {
+		if a[0] > a[1] {
+			a[0], a[1] = a[1], a[0]
 		}
 		return
 	} else {
+		endIncluded := lSli - 1
 		// 原地快排
-		middleIx := start //+ (l / 2)
+		middleIx := 0 // 首个元素
 		fv := a[middleIx]
-		a[middleIx], a[endIncluded] = a[endIncluded], a[middleIx]
-		mp := start
-		for i := start; i <= endIncluded-1; i++ {
+		a[middleIx], a[endIncluded] = a[endIncluded], fv
+		mp := 0
+		for i := 0; i < endIncluded; i++ {
 			if a[i] < fv {
 				if i != mp {
 					a[mp], a[i] = a[i], a[mp]
@@ -40,26 +40,23 @@ func cQSort(start, endIncluded int, a []int) {
 				mp++
 			}
 		}
-		a[mp], a[endIncluded] = a[endIncluded], a[mp]
-		splitPo := mp
-		if l >= concurrentLenBound {
-			c1 := make(chan bool)
-			c2 := make(chan bool)
-
+		a[mp], a[endIncluded] = fv, a[mp]
+		if lSli >= concurrentLenBoundForMyQSort {
+			done := make(chan bool)
 			go func() {
-				cQSort(start, splitPo-1, a)
-				c1 <- true
+				cQSort(a[:mp])
+				done <- true
 			}()
 			go func() {
-				cQSort(splitPo+1, endIncluded, a)
-				c2 <- true
+				cQSort(a[mp+1:])
+				done <- true
 			}()
-			<-c1
-			<-c2
+			<-done
+			<-done
 			return
 		} else {
-			cQSort(start, splitPo-1, a)
-			cQSort(splitPo+1, endIncluded, a)
+			cQSort(a[:mp])
+			cQSort(a[mp+1:])
 			return
 		}
 	}
@@ -98,7 +95,7 @@ func cQSortWithWG(start, endIncluded int, a []int) {
 		}
 		a[mp], a[endIncluded] = a[endIncluded], a[mp]
 		splitPo := mp
-		if l >= concurrentLenBound {
+		if l >= concurrentLenBoundForMyQSort {
 			wg := new(sync.WaitGroup)
 			wg.Add(2)
 			go func() {

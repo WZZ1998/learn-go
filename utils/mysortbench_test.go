@@ -1,9 +1,7 @@
 package utils_test
 
 import (
-	"fmt"
 	"learn-go/utils"
-	"os"
 	"sort"
 	"testing"
 )
@@ -12,54 +10,39 @@ import (
 // @date  2020/6/29 21:58
 // @description
 // @version
-const slToSortL int = 10000000
+const slToSortL int = 1e7
 
-var td, modSl []int
+func BenchmarkAllMySort(b *testing.B) {
+	benchOriginData, errGetData := utils.GetRandIntSliceOfLength(slToSortL)
+	if errGetData != nil {
+		b.Fatal("prepare data failed, error:", errGetData)
+	}
+	modSl := make([]int, len(benchOriginData))
+	b.Run("BenchmarkMyConcurrentQSort", func(subB *testing.B) {
+		for i := 0; i < subB.N; i++ {
+			subB.StopTimer() // 把这个时间给扣出去
+			copy(modSl, benchOriginData)
+			subB.StartTimer()
+			utils.MyConcurrentQSort(modSl)
+		}
+	})
+	b.Run("BenchmarkMyConcurrentQSortWithWG", func(subB *testing.B) {
+		for i := 0; i < subB.N; i++ {
+			subB.StopTimer() // 把这个时间给扣出去
+			copy(modSl, benchOriginData)
+			subB.StartTimer()
+			utils.MyConcurrentQSortWithWG(modSl)
+		}
+	})
+	b.Run("BenchmarkStdLibQSort", func(subB *testing.B) {
+		for i := 0; i < subB.N; i++ {
+			subB.StopTimer()
+			copy(modSl, benchOriginData)
+			subB.StartTimer()
+			sort.Ints(modSl)
+		}
+	})
 
-func setup() error {
-	var err error
-	td, err = getRandomIntSliceWithL(slToSortL)
-	if err != nil {
-		return err
-	}
-	modSl = make([]int, len(td))
-	return nil
-}
-func TestMain(m *testing.M) {
-	fmt.Println("utils_test main started...")
-	errSetUp := setup()
-	if errSetUp != nil {
-		fmt.Println("error while setup:", errSetUp)
-		return
-	}
-	co := m.Run()
-	os.Exit(co)
-}
-func BenchmarkMyConcurrentQSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		b.StopTimer() // 把这个时间给扣出去
-		copy(modSl, td)
-		b.StartTimer()
-		utils.MyConcurrentQSort(modSl)
-		// wait group
-		// channel
-	}
-}
-func BenchmarkMyConcurrentQSortWithWG(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		b.StopTimer() // 把这个时间给扣出去
-		copy(modSl, td)
-		b.StartTimer()
-		utils.MyConcurrentQSortWithWG(modSl)
-	}
-}
-func BenchmarkStdLibQSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		copy(modSl, td)
-		b.StartTimer()
-		sort.Ints(modSl)
-	}
 }
 
 // 跑来跑去还是用channel的快一点,大概有10%的性能优势
