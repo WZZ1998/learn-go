@@ -50,18 +50,20 @@ func LearnGoroutine() {
 	for i := 0; i < 3; i++ {
 		giveGoroutineAndSendBackWithCh()
 	}
-	ch3 := make(chan int)
-	go func() {
-		for {
-			time.Sleep(60 * time.Millisecond)
-			ch3 <- rand.Intn(30)
-		}
-	}()
-	st := time.Now()
-	for time.Since(st) <= 1*time.Second {
-		fmt.Print(<-ch3, " ")
-	}
-	fmt.Println()
+
+	//ch3 := make(chan int)
+	//go func() {
+	//	for {
+	//		time.Sleep(60 * time.Millisecond)
+	//		ch3 <- rand.Intn(30)
+	//	}
+	//}()
+	//st := time.Now()
+	//for time.Since(st) <= 1*time.Second {
+	//	fmt.Print(<-ch3, " ")
+	//}
+	//fmt.Println()
+
 	//var ch3SendOnly chan<- int = ch3
 	//ch3SendOnly <- 0xffff // 单向channel
 	//var ch3ReceiveOnly <-chan int
@@ -98,7 +100,7 @@ func LearnGoroutine() {
 	}
 	// 等一会让sender发出去,这里的close和上面循环的go形成了一个可以检测到的race
 	// 不过这里等一段时间协程写channel基本写完了
-	time.Sleep(300 * time.Millisecond)
+	time.Sleep(60 * time.Millisecond)
 	close(ch4)
 	senderWg.Wait()
 	chSyWithReceiver <- true

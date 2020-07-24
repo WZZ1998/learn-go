@@ -1,7 +1,7 @@
-package utils_test
+package util_test
 
 import (
-	"learn-go/utils"
+	"learn-go/util"
 	"testing"
 )
 
@@ -11,9 +11,9 @@ import (
 // @version
 
 func TestGetRandIntSliceOfLength(t *testing.T) {
-	testLens := []int{1, 3, 10, 40, 100, 1e3, 1e6, 4e8}
+	testLens := []int{1, 3, 10, 40, 100, 1e3, 1e6, 1e7}
 	for caseNo, testL := range testLens {
-		res, err := utils.GetRandIntSliceOfLength(testL)
+		res, err := util.GetRandIntSliceOfLength(testL)
 		if err != nil {
 			t.Errorf("case: %d slice len %d error: %v", caseNo, testL, err)
 			continue

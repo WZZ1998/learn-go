@@ -12,8 +12,14 @@ import (
 // @description
 // @version
 func LearnException() {
-	defer func() {
+	defer func(int) {
 		fmt.Println("defer call in LearnException")
+	}(printThenGetZero())
+	// defer 执行函数的参数在写defer时立即求值
+	//而defer内部的过程会在func panic或者return时才执行
+
+	defer func() {
+		fmt.Println("defer call2 in LearnException")
 	}()
 
 	err := errors.New("my strange error")
@@ -73,4 +79,9 @@ func ttf2() {
 	//fmt.Println("recover:", recover()) 直接调用recover只返回nil,没有其他效果了
 	panic("deliberate panic!")
 
+}
+
+func printThenGetZero() int {
+	fmt.Println("arg of defer call :get value of 0")
+	return 0
 }

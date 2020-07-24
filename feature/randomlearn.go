@@ -5,6 +5,8 @@ package feature
 // @description 学习随机数的使用
 // @version
 import (
+	crand "crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"math/rand"
 	"time"
@@ -26,5 +28,18 @@ func LearnRandom() {
 	fmt.Println()
 	for i := 0; i < 10; i++ {
 		fmt.Printf("%2.2f / ", 100*rand.Float32())
+	}
+	fmt.Println()
+	fmt.Println("ABout crypto rand:")
+	rbySlice := make([]byte, 48)
+	for i := 0; i < 3; i++ {
+		n, errReadR := crand.Read(rbySlice)
+		if errReadR != nil {
+			fmt.Println("Read from crypto rand failed:", errReadR)
+			break
+		}
+		fmt.Printf("read %d bytes from crypto rand.\n", n)
+		b64RandStr := base64.StdEncoding.EncodeToString(rbySlice)
+		fmt.Println("get random base64 str:", b64RandStr)
 	}
 }

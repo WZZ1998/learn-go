@@ -1,7 +1,7 @@
-package utils_test
+package util_test
 
 import (
-	"learn-go/utils"
+	"learn-go/util"
 	"sort"
 	"testing"
 )
@@ -15,14 +15,14 @@ func TestMyConcurrentQSort(t *testing.T) {
 	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
-		td, err := utils.GetRandIntSliceOfLength(ll)
+		td, err := util.GetRandIntSliceOfLength(ll)
 		if err != nil {
 			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
 		}
 		testCases = append(testCases, td)
 	}
 	for ix, sl := range testCases {
-		utils.MyConcurrentQSort(sl)
+		util.MyConcurrentQSort(sl)
 		verify(t, ix, sl)
 	}
 }
@@ -31,14 +31,14 @@ func TestMyConcurrentQSortWithWG(t *testing.T) {
 	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
-		td, err := utils.GetRandIntSliceOfLength(ll)
+		td, err := util.GetRandIntSliceOfLength(ll)
 		if err != nil {
 			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
 		}
 		testCases = append(testCases, td)
 	}
 	for ix, sl := range testCases {
-		utils.MyConcurrentQSortWithWG(sl)
+		util.MyConcurrentQSortWithWG(sl)
 		verify(t, ix, sl)
 	}
 }

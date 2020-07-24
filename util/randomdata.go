@@ -1,4 +1,4 @@
-package utils
+package util
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 // @version
 
 func init() {
-	fmt.Println("init utils/randomdata: set global rand seed.")
+	fmt.Println("init util/randomdata: set global rand seed.")
 	rand.Seed(time.Now().UnixNano())
 }
 

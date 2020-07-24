@@ -1,7 +1,7 @@
-package utils_test
+package util_test
 
 import (
-	"learn-go/utils"
+	"learn-go/util"
 	"math/rand"
 	"testing"
 	"time"
@@ -38,12 +38,12 @@ const benchRISliceLen = 1e7
 
 func BenchmarkGetRandIntSliceOfLength(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_, _ = utils.GetRandIntSliceOfLength(benchRISliceLen)
+		_, _ = util.GetRandIntSliceOfLength(benchRISliceLen)
 	}
 }
 
 func BenchmarkSimpleIRSliceOfLForBench(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_, _ = utils.SimpleIRSliceOfLForBench(benchRISliceLen)
+		_, _ = util.SimpleIRSliceOfLForBench(benchRISliceLen)
 	}
 }

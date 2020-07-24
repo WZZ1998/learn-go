@@ -1,7 +1,7 @@
 package feature_test
 
 import (
-	"learn-go/utils"
+	"learn-go/util"
 	"testing"
 )
 
@@ -13,7 +13,7 @@ const oLen = 1024 * 8
 
 func BenchmarkCopySlice(b *testing.B) {
 	b.Log("test original slice len:", oLen)
-	ori, errGetOri := utils.GetRandIntSliceOfLength(oLen)
+	ori, errGetOri := util.GetRandIntSliceOfLength(oLen)
 	if errGetOri != nil {
 		b.Fatal("Get origin data failed:", errGetOri)
 	}

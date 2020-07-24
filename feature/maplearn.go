@@ -3,6 +3,7 @@ package feature
 import (
 	"fmt"
 	"math/rand"
+	"unsafe"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -11,11 +12,16 @@ import (
 // @version
 
 func LearnMap() {
-	m1 := map[string]string{}
+	m1 := make(map[string]string)
 	m1["Jan"] = "一月"
-	m2 := m1
-	fmt.Println("map m2:", m2)
-
+	m2 := m1 // m1 m2 只是指向map内存体的指针, 赋值只是拷贝指针而已,不是深层拷贝
+	m2["Feb"] = "二月"
+	println("unsafe size of m1:", unsafe.Sizeof(m1))
+	println("map m1 addr:", &m1)
+	println("map m1 addr:", &m2)
+	println("m1[\"noExist!\"]:", m1["noExist!"])
+	_, contained := m1["noExist!"] //返回值类型的零值, contained为false,不会发生panic
+	println("contained:", contained)
 	mf := map[int]func() int{
 		1: func() int { return 100 },
 		2: func() int { return 200 },

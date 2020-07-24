@@ -1,7 +1,7 @@
-package utils_test
+package util_test
 
 import (
-	"learn-go/utils"
+	"learn-go/util"
 	"sort"
 	"testing"
 )
@@ -13,7 +13,7 @@ import (
 const slToSortL int = 1e7
 
 func BenchmarkAllMySort(b *testing.B) {
-	benchOriginData, errGetData := utils.GetRandIntSliceOfLength(slToSortL)
+	benchOriginData, errGetData := util.GetRandIntSliceOfLength(slToSortL)
 	if errGetData != nil {
 		b.Fatal("prepare data failed, error:", errGetData)
 	}
@@ -23,7 +23,7 @@ func BenchmarkAllMySort(b *testing.B) {
 			subB.StopTimer() // 把这个时间给扣出去
 			copy(modSl, benchOriginData)
 			subB.StartTimer()
-			utils.MyConcurrentQSort(modSl)
+			util.MyConcurrentQSort(modSl)
 		}
 	})
 	b.Run("BenchmarkMyConcurrentQSortWithWG", func(subB *testing.B) {
@@ -31,7 +31,7 @@ func BenchmarkAllMySort(b *testing.B) {
 			subB.StopTimer() // 把这个时间给扣出去
 			copy(modSl, benchOriginData)
 			subB.StartTimer()
-			utils.MyConcurrentQSortWithWG(modSl)
+			util.MyConcurrentQSortWithWG(modSl)
 		}
 	})
 	b.Run("BenchmarkStdLibQSort", func(subB *testing.B) {

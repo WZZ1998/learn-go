@@ -61,6 +61,7 @@ func main() {
 		feature.LearnMem2,
 		//feature.LearnMem3,
 		feature.LearnGoroutine,
+		feature.LearnGoroutine2,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))
