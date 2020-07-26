@@ -61,6 +61,8 @@ func main() {
 		feature.LearnMem2,
 		//feature.LearnMem3,
 		feature.LearnGoroutine,
+		feature.LearnAlgUse,
+		feature.LearnIterate,
 		feature.LearnGoroutine2,
 	}
 	for _, lf := range learnFunctions {

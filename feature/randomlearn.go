@@ -8,6 +8,7 @@ import (
 	crand "crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"math/big"
 	"math/rand"
 	"time"
 )
@@ -41,5 +42,17 @@ func LearnRandom() {
 		fmt.Printf("read %d bytes from crypto rand.\n", n)
 		b64RandStr := base64.StdEncoding.EncodeToString(rbySlice)
 		fmt.Println("get random base64 str:", b64RandStr)
+	}
+	for i := 100; i < 10000; i += 2000 {
+		bi := new(big.Int)
+		bi.SetInt64(int64(i))
+		fmt.Print("bound ", bi)
+		n, errRI := crand.Int(crand.Reader, bi) //注意,bound <= 0 会直接panic!
+		if errRI != nil {
+			fmt.Println(" crand int failed, error:", errRI)
+			break
+		}
+		fmt.Println(" cr big int:", n)
+
 	}
 }
