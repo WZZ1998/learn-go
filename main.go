@@ -29,6 +29,7 @@ func main() {
 	//mainFunc() 引发死递归
 	fmt.Printf("function main type v initFunc: %T\n\n", mainFunc)
 	learnFunctions := []func(){
+		feature.LearnMapOP,
 		feature.LearnString,
 		feature.LearnTypes,
 		feature.LearnRandom,
@@ -63,7 +64,8 @@ func main() {
 		feature.LearnGoroutine,
 		feature.LearnAlgUse,
 		feature.LearnIterate,
-		feature.LearnGoroutine2,
+
+		feature.LearnUnsafe,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))

@@ -12,6 +12,7 @@ import (
 // @version
 
 func LearnMap() {
+	// map的key不允许重复
 	m1 := make(map[string]string)
 	m1["Jan"] = "一月"
 	m2 := m1 // m1 m2 只是指向map内存体的指针, 赋值只是拷贝指针而已,不是深层拷贝
@@ -63,4 +64,8 @@ func LearnMap() {
 		}
 	}
 
+	mmm := map[string]int{"one": 1, "two": 2}
+	delete(mmm, "two") // key为nil或者不存在相应entry,则什么都不会发生
+	//If m is nil or there is no such element, delete is a no-op.
+	fmt.Println(mmm)
 }
