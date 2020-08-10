@@ -63,8 +63,9 @@ func main() {
 		//feature.LearnMem3,
 		feature.LearnGoroutine,
 		feature.LearnAlgUse,
-		feature.LearnIterate,
-
+		//feature.LearnIterate,
+		//golang 编译器的一个bug,已经从github上拿到了1.14.7的源代码,改了path, 不再有这个问题
+		// 关于后续的优化: https://github.com/golang/go/issues/40502
 		feature.LearnUnsafe,
 	}
 	for _, lf := range learnFunctions {

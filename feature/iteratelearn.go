@@ -2,7 +2,6 @@ package feature
 
 import (
 	"fmt"
-	"os"
 )
 
 // @author  wzz_714105382@icloud.com
@@ -16,7 +15,6 @@ func LearnIterate() {
 	problemSt4()
 	problemSt5()
 	problemSt6()
-	os.Exit(20)
 }
 
 func problemSt() {
