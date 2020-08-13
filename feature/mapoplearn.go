@@ -18,7 +18,7 @@ func LearnMapOP() {
 	//runtime.GC() // 手动激发一次GC,防止被干扰
 	time.Sleep(5 * time.Millisecond)
 
-	doProfile := true
+	doProfile := false
 	if runtime.GOOS == "darwin" && doProfile == true {
 		oPth := "/Users/wangzizhou/Downloads/learn-go-profiles"
 		pf, errCreatePF := os.Create(path.Join(oPth, "mapCPU.prof"))

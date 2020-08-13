@@ -17,7 +17,7 @@ import (
 // @version
 func LearnGoroutine() {
 	if runtime.GOOS == "darwin" {
-		doTrace := true
+		doTrace := false
 		fmt.Print("go max P:", runtime.GOMAXPROCS(-1))
 		fmt.Println(" CPU cnt:", runtime.NumCPU())
 		if doTrace {

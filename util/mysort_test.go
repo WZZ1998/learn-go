@@ -10,9 +10,10 @@ import (
 // @date  2020/6/29 16:29
 // @description
 // @version
-func TestMyConcurrentQSort(t *testing.T) {
+var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
+
+func TestMyConcurrentQSortWithChannelWait(t *testing.T) {
 	t.Log("testing validation of my quick sort implementation")
-	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
 		td, err := util.GetRandIntSliceOfLength(ll)
@@ -22,13 +23,12 @@ func TestMyConcurrentQSort(t *testing.T) {
 		testCases = append(testCases, td)
 	}
 	for ix, sl := range testCases {
-		util.MyConcurrentQSort(sl)
+		util.MyConcurrentQSortWithChannelWait(sl)
 		verify(t, ix, sl)
 	}
 }
 func TestMyConcurrentQSortWithWG(t *testing.T) {
 	t.Log("testing validation of my quick sort implementation with wait group")
-	var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 	var testCases [][]int
 	for _, ll := range testSlLens {
 		td, err := util.GetRandIntSliceOfLength(ll)
@@ -39,6 +39,21 @@ func TestMyConcurrentQSortWithWG(t *testing.T) {
 	}
 	for ix, sl := range testCases {
 		util.MyConcurrentQSortWithWG(sl)
+		verify(t, ix, sl)
+	}
+}
+func TestMyConcurrentQSortWithChannelTaskQueue(t *testing.T) {
+	t.Log("testing validation of my quick sort implementation with channel work queue")
+	var testCases [][]int
+	for _, ll := range testSlLens {
+		td, err := util.GetRandIntSliceOfLength(ll)
+		if err != nil {
+			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
+		}
+		testCases = append(testCases, td)
+	}
+	for ix, sl := range testCases {
+		util.MyConcurrentQSortWithChannelTaskQueue(sl)
 		verify(t, ix, sl)
 	}
 }

@@ -3,7 +3,9 @@ package feature
 import (
 	"fmt"
 	"learn-go/util"
+	"os"
 	"runtime"
+	"runtime/pprof"
 	"sort"
 	"time"
 )
@@ -13,7 +15,7 @@ import (
 // @description
 // @version
 func LearnConcurrent() {
-	const tCnt int = 8e5
+	const tCnt int = 1e7
 	slBase, errGetOri := util.GetRandIntSliceOfLength(tCnt)
 	if errGetOri != nil {
 		fmt.Println("get origin data error:", errGetOri)
@@ -26,30 +28,31 @@ func LearnConcurrent() {
 	sort.Ints(slBase)
 	timeUsedBase := time.Since(st)
 	st = time.Now()
-	util.MyConcurrentQSort(slEx)
+	util.MyConcurrentQSortWithChannelWait(slEx)
 	timeUsedEx := time.Since(st)
 	fmt.Printf("base time %v ex time %v ratio: %.4f valid:%t\n",
 		timeUsedBase,
 		timeUsedEx,
 		timeUsedEx.Seconds()/timeUsedBase.Seconds(),
 		sort.IntsAreSorted(slEx))
-	if runtime.GOOS == "darwin" {
+	runAndPProf := false
+	if runtime.GOOS == "darwin" && runAndPProf {
 		fmt.Println("Run and generate pprof ana file.")
-		var pCnt int = 1e6
+		var pCnt int = 1e7
 		slRea, _ := util.GetRandIntSliceOfLength(pCnt)
-		//pth := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqcpu.prof"
-		//cf, _ := os.OpenFile(pth,
-		//	os.O_WRONLY|os.O_CREATE|os.O_TRUNC,
-		//	0644,
-		//)
-		//defer cf.Close()
-		//errStartProf := pprof.StartCPUProfile(cf)
-		//if errStartProf != nil {
-		//	fmt.Println("start prof failed:", errStartProf)
-		//	return
-		//}
-		//defer pprof.StopCPUProfile()
-		util.MyConcurrentQSort(slRea)
+		pth := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqcpu.prof"
+		cf, _ := os.OpenFile(pth,
+			os.O_WRONLY|os.O_CREATE|os.O_TRUNC,
+			0644,
+		)
+		defer cf.Close()
+		errStartProf := pprof.StartCPUProfile(cf)
+		if errStartProf != nil {
+			fmt.Println("start prof failed:", errStartProf)
+			return
+		}
+		defer pprof.StopCPUProfile()
+		util.MyConcurrentQSortWithChannelTaskQueue(slRea)
 
 		//pth2 := "/Users/wangzizhou/Downloads/learn-go-profiles/mysqmem.prof"
 		//mf, _ := os.OpenFile(pth2,

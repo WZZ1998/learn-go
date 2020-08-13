@@ -2,7 +2,6 @@ package util_test
 
 import (
 	"learn-go/util"
-	"sort"
 	"testing"
 )
 
@@ -10,7 +9,7 @@ import (
 // @date  2020/6/29 21:58
 // @description
 // @version
-const slToSortL int = 1e7
+const slToSortL int = 1e6
 
 func BenchmarkAllMySort(b *testing.B) {
 	benchOriginData, errGetData := util.GetRandIntSliceOfLength(slToSortL)
@@ -18,12 +17,12 @@ func BenchmarkAllMySort(b *testing.B) {
 		b.Fatal("prepare data failed, error:", errGetData)
 	}
 	modSl := make([]int, len(benchOriginData))
-	b.Run("BenchmarkMyConcurrentQSort", func(subB *testing.B) {
+	b.Run("BenchmarkMyConcurrentQSortWithChannelWait", func(subB *testing.B) {
 		for i := 0; i < subB.N; i++ {
 			subB.StopTimer() // 把这个时间给扣出去
 			copy(modSl, benchOriginData)
 			subB.StartTimer()
-			util.MyConcurrentQSort(modSl)
+			util.MyConcurrentQSortWithChannelWait(modSl)
 		}
 	})
 	b.Run("BenchmarkMyConcurrentQSortWithWG", func(subB *testing.B) {
@@ -34,12 +33,20 @@ func BenchmarkAllMySort(b *testing.B) {
 			util.MyConcurrentQSortWithWG(modSl)
 		}
 	})
-	b.Run("BenchmarkStdLibQSort", func(subB *testing.B) {
+	//b.Run("BenchmarkStdLibQSort", func(subB *testing.B) {
+	//	for i := 0; i < subB.N; i++ {
+	//		subB.StopTimer()
+	//		copy(modSl, benchOriginData)
+	//		subB.StartTimer()
+	//		sort.Ints(modSl)
+	//	}
+	//})
+	b.Run("BenchmarkMyConcurrentQSortWithChannelTaskQueue", func(subB *testing.B) {
 		for i := 0; i < subB.N; i++ {
 			subB.StopTimer()
 			copy(modSl, benchOriginData)
 			subB.StartTimer()
-			sort.Ints(modSl)
+			util.MyConcurrentQSortWithChannelTaskQueue(modSl)
 		}
 	})
 

@@ -15,7 +15,7 @@ import (
 func BenchmarkMapOpContentInsert(b *testing.B) {
 	b.Run("WithFixedByteSliceToString", func(sb *testing.B) {
 		for i := 0; i < sb.N; i++ {
-			mm := make(map[string]int64, 1000001)
+			mm := make(map[string]int64, 1000000)
 			kBuf := make([]byte, 0, 32)
 			var j int64
 			for j = 0; j < 1000000; j++ {
@@ -23,8 +23,7 @@ func BenchmarkMapOpContentInsert(b *testing.B) {
 				kBuf = strconv.AppendInt(kBuf, j, 10)
 				kBuf = append(kBuf, '_')
 				kBuf = strconv.AppendInt(kBuf, v, 10)
-				k := string(kBuf)
-				mm[k] = v
+				mm[string(kBuf)] = v
 				kBuf = kBuf[:0]
 			}
 		}

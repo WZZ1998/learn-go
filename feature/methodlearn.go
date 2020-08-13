@@ -55,9 +55,9 @@ func LearnMethod() {
 	s := (*intVector).add
 	s(&nums, 6) // 真有意思,拆成func expression就不给做自动取地址了
 	fmt.Println("nums :", nums)
-	numsp := &nums
-	fmt.Printf("unmsp :%p\n", numsp)
-	fmt.Printf("unmsp value :%#v \n", numsp)
+	numsP := &nums
+	fmt.Printf("unmsp :%p\n", numsP)
+	fmt.Printf("unmsp value :%#v \n", numsP)
 	// 很有意思,如果receiver是指针,那么即使你用值类型调用,依然会给你取地址,能够修改原来的实例
 	// 如果receiver是值类型,那么即使用指针调用,还是会解引用,做值传递,不能修改修改原来的实例
 	// 因此,方法的行为,受控于receiver的类型!
@@ -147,9 +147,9 @@ func (Base) Magic() {
 	fmt.Println("base magic")
 }
 
-func (self Base) MoreMagic() {
-	self.Magic()
-	self.Magic()
+func (receiver Base) MoreMagic() {
+	receiver.Magic()
+	receiver.Magic()
 }
 
 type Voodoo struct {
