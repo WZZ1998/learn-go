@@ -82,6 +82,7 @@ type arrSEPair struct {
 	end   int
 }
 
+// MyConcurrentQSortWithChannelTaskQueue is a bad implementation of quick sort.A little little bit faster but with bug.
 func MyConcurrentQSortWithChannelTaskQueue(a []int) {
 	if a == nil {
 		return

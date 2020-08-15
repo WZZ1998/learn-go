@@ -68,6 +68,8 @@ func main() {
 		// 关于后续的优化: https://github.com/golang/go/issues/40502
 		feature.LearnUnsafe,
 		feature.LearnGoroutine2,
+		feature.LearnChan,
+		feature.LearnChan2,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))

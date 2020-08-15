@@ -15,7 +15,7 @@ import (
 // @description
 // @version
 func LearnConcurrent() {
-	const tCnt int = 1e7
+	const tCnt int = 5e5
 	slBase, errGetOri := util.GetRandIntSliceOfLength(tCnt)
 	if errGetOri != nil {
 		fmt.Println("get origin data error:", errGetOri)

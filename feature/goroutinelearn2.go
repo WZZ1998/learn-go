@@ -3,7 +3,6 @@ package feature
 import (
 	"fmt"
 	"math/rand"
-	"regexp"
 	"time"
 )
 
@@ -60,8 +59,10 @@ func LearnGoroutine2() {
 
 	// channel 变量的零值是nil
 
-	pt := "^((?!Std).)*$"
-	fmt.Println(regexp.MatchString(pt, "StdTest"))
+	//var cha chan int
+	//cha <- 1 // 向一个nil的channel发送值会导致阻塞
+	//<-cha 接收值也会导致阻塞
+
 }
 
 func checkGetThenCheck(ch <-chan int, name string) {
