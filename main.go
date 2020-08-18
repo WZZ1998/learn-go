@@ -7,6 +7,8 @@ package main
 import (
 	"fmt"
 	"learn-go/feature"
+	//"net/http"
+	//_ "net/http/pprof" 可以动态监测pprof
 	"reflect"
 	"runtime"
 	"strings"
@@ -23,6 +25,11 @@ func init() { // init函数会在包的最开始执行,这个函数不可以在�
 	fmt.Println("initializing package main......")
 }
 func main() {
+
+	//go func() {
+	//	_ = http.ListenAndServe("localhost:8085", nil)
+	//}() // 开一个goroutine来监测程序的状态
+
 	//init() 不可以调用
 	var mainFunc F = main
 	//var initFunc F = init 无法引用到init
@@ -70,6 +77,7 @@ func main() {
 		feature.LearnGoroutine2,
 		feature.LearnChan,
 		feature.LearnChan2,
+		feature.LearnTimer,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))
