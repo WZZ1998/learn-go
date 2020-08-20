@@ -81,6 +81,8 @@ func main() {
 		feature.LearnChan3,
 		feature.LearnServer,
 		feature.LearnGoroutine3,
+		//feature.LearnGoroutineBench, 有bench
+		feature.LearnSafeObj,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))

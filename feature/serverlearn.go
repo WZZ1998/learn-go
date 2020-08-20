@@ -45,7 +45,9 @@ func serverWithQC(op triOp, reqService <-chan *myRequest, quitC <-chan bool) {
 }
 func server(op triOp, reqService <-chan *myRequest) {
 	defer fmt.Println("server terminated.")
-	const MAXREQ = 900
+	const MAXREQ = 900 // 带缓冲的channel可以直接作为信号量使用,P对应发送元素,
+	// V对应取出元素;有N的缓冲位置的channel将在连续写入N个值后阻塞继续试图写入的goroutine,
+	//而receive会使得空出一个位置,其他goroutine可以继续插入;如上所述就实现了对并发的控制
 	sem := make(chan int, MAXREQ) // 限制同时处理的最大并发数量,模拟信号量
 	for req := range reqService {
 		go func(gReq *myRequest) {
@@ -107,7 +109,7 @@ func startServer(op triOp) chan *myRequest {
 }
 
 func concurrentSendRq(rqSrv chan *myRequest) int {
-	const cn = 100000
+	const cn = 10000
 	bch := make(chan bool, 1024)
 	wg := new(sync.WaitGroup)
 	wg.Add(cn)
