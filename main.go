@@ -78,6 +78,9 @@ func main() {
 		feature.LearnChan,
 		feature.LearnChan2,
 		feature.LearnTimer,
+		feature.LearnChan3,
+		feature.LearnServer,
+		feature.LearnGoroutine3,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))

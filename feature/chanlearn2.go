@@ -53,10 +53,28 @@ func LearnChan2() {
 	//		_ = res
 	//	case <-callTimer.C:
 	//		fmt.Println("call failed. timeout!")
-	//		panic("impossible timeout!")
+	//		panic("impossible timeout!") // 发现在macOS有系统资源占用的情况下,真的有可能走到这里
 	//	}
 	//	callTimer.Stop()
 	//}
+
+	trCh := make(chan bool, 1)
+	go func() {
+		defer func() {
+			fmt.Println("goroutine finished, time:", time.Now())
+		}()
+		time.Sleep(1 * time.Second)
+		trCh <- true
+	}()
+	select {
+	case <-trCh:
+		fmt.Println("receive from g")
+	case ct := <-time.After(20 * time.Millisecond):
+		fmt.Println("time out. now:", ct) // 注意,这里等待时间很短,而且只调用一次,对性能也不敏感,演示用
+	}
+	time.Sleep(1500 * time.Millisecond)
+	//runtime.Goexit() 其他协程执行到死锁或者无活跃协程,程序panic退出
+
 }
 
 func addPrimeRoutineFilter(in <-chan int, p int) <-chan int {

@@ -47,6 +47,7 @@ func LearnGoroutine() {
 		ch <- rand.Intn(100)
 	}
 	time.Sleep(5 * time.Millisecond)
+	close(ch)
 	for i := 0; i < 3; i++ {
 		giveGoroutineAndSendBackWithCh()
 	}
@@ -123,8 +124,8 @@ func sendIntToCh(ch chan int, num int) {
 }
 func getIntFromChan(ch chan int) {
 	fmt.Println("in getIntFromChan ch addr:", &ch)
-	for {
-		if <-ch%17 == 0 { // 可以这样直接用来做判断
+	for v := range ch {
+		if v%17 == 0 {
 			fmt.Println("divided by 17!")
 		}
 	}
