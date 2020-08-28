@@ -53,6 +53,7 @@ func LearnGoroutine3() {
 	}
 	fmt.Println("pipeline process, time", time.Since(stc))
 	close(ci)
+
 }
 
 func f(left, right chan int) {

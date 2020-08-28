@@ -77,20 +77,25 @@ type AA struct {
 }
 
 func LearnSafeObj() {
-	//ma := AA{"ori", 10}
-	//var x interface{} = ma
-	//ma.name = "mmm"
-	//ma.age = 999
-	//fmt.Printf("ma %v x %v", &ma, x) // 值类型赋值给接口时,确实是会做值拷贝,所以要慎重
-	for i := 0; i < 200; i++ {
-		time.Sleep(2 * time.Millisecond)
+	ma := AA{"ori", 10}
+	var x interface{} = ma
+	ma.name = "mmm"
+	ma.age = 999
+	xs := x.(AA)
+	xs.name = "from type assertion"
+	xs.age = -1
+	fmt.Printf("ma %v x %v xs %v\n", &ma, x, &xs)
+	// 值类型赋值给接口时,确实是会做值拷贝,所以要慎重
+	// 使用类型断言将接口类型转换为值类型时,还是会做值拷贝
+	for i := 0; i < 100; i++ {
+		time.Sleep(1 * time.Millisecond)
 		tryCreate()
 	}
 	gPerson := NewGSafePerson("wang", 0.0)
 	defer gPerson.Delete()
 
 	gCh := make(chan bool)
-	gCnt := 3721
+	gCnt := 482
 	wg := new(sync.WaitGroup)
 	wg.Add(gCnt)
 

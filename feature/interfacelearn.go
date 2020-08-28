@@ -22,7 +22,7 @@ type shape struct{}
 type uls struct{}
 
 func (sh *shape) area() float64 {
-	// 一个抽象类,不过接口这么强大,抽象类貌似没啥两点了
+	// 一个抽象类,不过接口这么强大,抽象类貌似没啥亮点了
 	// 本身OO现在也强调接口而不是抽象类的使用
 	return 0.0
 }

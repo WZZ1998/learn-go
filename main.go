@@ -76,13 +76,15 @@ func main() {
 		feature.LearnUnsafe,
 		feature.LearnGoroutine2,
 		feature.LearnChan,
-		feature.LearnChan2,
+		//feature.LearnChan2, //慢
 		feature.LearnTimer,
 		feature.LearnChan3,
 		feature.LearnServer,
-		feature.LearnGoroutine3,
+		//feature.LearnGoroutine3, // 慢
 		//feature.LearnGoroutineBench, 有bench
 		feature.LearnSafeObj,
+		feature.LearnCode,
+		feature.LearnContext,
 	}
 	for _, lf := range learnFunctions {
 		fmt.Println(getFuncNameWithFV(lf))
