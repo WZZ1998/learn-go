@@ -1,4 +1,4 @@
-module learn-go
+module github.com/WZZ1998/learn-go
 
 go 1.15
 
