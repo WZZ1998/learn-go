@@ -6,7 +6,7 @@ package main
 // @version
 import (
 	"fmt"
-	"learn-go/feature"
+	"github.com/WZZ1998/learn-go/feature"
 	//"net/http"
 	//_ "net/http/pprof" 可以动态监测pprof
 	"reflect"

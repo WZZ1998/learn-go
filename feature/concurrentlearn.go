@@ -2,7 +2,7 @@ package feature
 
 import (
 	"fmt"
-	"learn-go/util"
+	"github.com/WZZ1998/learn-go/util"
 	"os"
 	"runtime"
 	"runtime/pprof"

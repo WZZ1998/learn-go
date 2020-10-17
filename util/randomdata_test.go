@@ -1,7 +1,7 @@
 package util_test
 
 import (
-	"learn-go/util"
+	"github.com/WZZ1998/learn-go/util"
 	"testing"
 )
 
