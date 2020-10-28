@@ -13,4 +13,5 @@ func TestAbstracts(t *testing.T) {
 	t.Log("test abstract fake implementation.")
 	var x lib.FullABAble = lib.NewConcreteAbSum1(20, 30)
 	t.Logf("interface call: A() %v B() %v Sum() %v", x.A(), x.B(), x.Sum())
+	t.Log("abstract function OK.")
 }

@@ -2,10 +2,10 @@ package lib
 
 // @author  wzz_714105382@icloud.com
 // @date  2020/10/27 22:27
-// @description
+// @description 关于实现抽象类的方法:对于特殊的具有组合依赖的接口,应该做接口分拆,然后通过内嵌组合实现
 // @version
 
-type FullABAble interface {
+type FullABAble interface { // 复合接口,Sum()依赖于A()和B(),因此将A()和B()独立成单独的接口
 	A() int
 	B() int
 	Sum() int
@@ -18,11 +18,13 @@ type simpleAB interface {
 
 type absSumAbleC struct {
 	simpleAB
-	//FullABAble 千万不要这样写,如果忘了写Sum()会导致循环引用 cyclic reference,导致SO
+	//FullABAble 千万不要这样写,如果忘了写Sum()会导致循环引用 cyclic reference,导致死递归SO
 	internalA, internalB int
 }
 
 func (p *absSumAbleC) Sum() int {
+	// 如果不写Sum,
+	// 那么absSumAbleC不会实现FullABAble接口,这样写就可以防止出错
 	return p.A() + p.B()
 }
 
@@ -36,10 +38,6 @@ func (s *concreteAbSum1) A() int {
 
 func (s *concreteAbSum1) B() int {
 	return s.internalB
-}
-
-type concreteAbSum2 struct {
-	absSumAbleC
 }
 
 func NewConcreteAbSum1(insideA, insideB int) *concreteAbSum1 {
