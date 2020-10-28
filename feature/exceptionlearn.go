@@ -15,7 +15,7 @@ func LearnException() {
 	defer func(int) {
 		fmt.Println("defer call in LearnException")
 	}(printThenGetZero())
-	// defer 执行函数的参数在写defer时立即求值
+	// defer 执行函数的参数在注册defer时立即求值
 	//而defer内部的过程会在func panic或者return时才执行
 
 	defer func() {
