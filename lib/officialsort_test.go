@@ -1,9 +1,10 @@
 package lib_test
 
 import (
-	"github.com/WZZ1998/learn-go/lib"
 	"sort"
 	"testing"
+
+	"github.com/WZZ1998/learn-go/lib"
 )
 
 // @author  wzz_714105382@icloud.com

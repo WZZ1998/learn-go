@@ -1,8 +1,9 @@
 package feature_test
 
 import (
-	"github.com/bradfitz/iter"
 	"testing"
+
+	"github.com/bradfitz/iter"
 )
 
 // @author  wzz_714105382@icloud.com

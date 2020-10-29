@@ -2,12 +2,13 @@ package feature
 
 import (
 	"fmt"
-	"github.com/WZZ1998/learn-go/util"
 	"os"
 	"runtime"
 	"runtime/pprof"
 	"sort"
 	"time"
+
+	"github.com/WZZ1998/learn-go/util"
 )
 
 // @author  wzz_714105382@icloud.com

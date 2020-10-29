@@ -2,6 +2,7 @@ package feature
 
 import (
 	"fmt"
+
 	"github.com/bradfitz/iter"
 )
 

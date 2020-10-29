@@ -35,6 +35,10 @@ func playWithTime() string {
 		panic(err)
 	}
 	wd(t)
+
+	currentNano := time.Now().UnixNano()
+	wd(time.Unix(0, currentNano).Format(time.RFC3339Nano))
+	wd(time.Now().Date())
 	return sb.String()
 }
 func PlayWithTime() string {

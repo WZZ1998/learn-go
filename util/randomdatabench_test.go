@@ -1,10 +1,11 @@
 package util_test
 
 import (
-	"github.com/WZZ1998/learn-go/util"
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/WZZ1998/learn-go/util"
 )
 
 // @author  wzz_714105382@icloud.com
