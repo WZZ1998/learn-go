@@ -12,15 +12,15 @@ import (
 // @version
 
 func TestGetRandIntSliceOfLength(t *testing.T) {
-	testLens := []int{1, 3, 10, 40, 100, 1e3, 1e6, 1e7}
-	for caseNo, testL := range testLens {
-		res, err := util.GetRandIntSliceOfLength(testL)
+	tests := []int{1, 3, 10, 40, 100, 1e3, 1e6, 1e7}
+	for caseNo, tt := range tests {
+		ranSlice, err := util.GetRandIntSliceOfLength(tt)
 		if err != nil {
-			t.Errorf("case: %d slice len %d error: %v", caseNo, testL, err)
+			t.Errorf("case %d : slice len %d get error: %v", caseNo, tt, err)
 			continue
 		}
-		if len(res) != testL {
-			t.Errorf("case: %d target len %d != res len %d", caseNo, testL, len(res))
+		if len(ranSlice) != tt {
+			t.Errorf("case %d : want len %d != ranSlice len %d", caseNo, tt, len(ranSlice))
 			continue
 		}
 	}

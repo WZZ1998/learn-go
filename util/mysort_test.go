@@ -1,6 +1,7 @@
 package util_test
 
 import (
+	"fmt"
 	"sort"
 	"testing"
 
@@ -11,51 +12,39 @@ import (
 // @date  2020/6/29 16:29
 // @description
 // @version
-var testSlLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
+var _testEleLens = []int{1, 5, 100, 1e3, 1e4, 1e6, 1e7}
 
 func TestMyConcurrentQSortWithChannelWait(t *testing.T) {
 	t.Log("testing validation of my quick sort implementation")
-	var testCases [][]int
-	for _, ll := range testSlLens {
-		td, err := util.GetRandIntSliceOfLength(ll)
-		if err != nil {
-			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
-		}
-		testCases = append(testCases, td)
+	tests, genErr := generateRandomSlice(_testEleLens)
+	if genErr != nil {
+		t.Fatal(genErr)
 	}
-	for ix, sl := range testCases {
-		util.MyConcurrentQSortWithChannelWait(sl)
-		verify(t, ix, sl)
+	for ix, tt := range tests {
+		util.MyConcurrentQSortWithChannelWait(tt)
+		verify(t, ix, tt)
 	}
 }
 func TestMyConcurrentQSortWithWG(t *testing.T) {
 	t.Log("testing validation of my quick sort implementation with wait group")
-	var testCases [][]int
-	for _, ll := range testSlLens {
-		td, err := util.GetRandIntSliceOfLength(ll)
-		if err != nil {
-			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
-		}
-		testCases = append(testCases, td)
+	tests, genErr := generateRandomSlice(_testEleLens)
+	if genErr != nil {
+		t.Fatal(genErr)
 	}
-	for ix, sl := range testCases {
-		util.MyConcurrentQSortWithWG(sl)
-		verify(t, ix, sl)
+	for ix, tt := range tests {
+		util.MyConcurrentQSortWithWG(tt)
+		verify(t, ix, tt)
 	}
 }
 func TestMyConcurrentQSortWithChannelTaskQueue(t *testing.T) {
 	t.Log("testing validation of my quick sort implementation with channel work queue")
-	var testCases [][]int
-	for _, ll := range testSlLens {
-		td, err := util.GetRandIntSliceOfLength(ll)
-		if err != nil {
-			t.Fatal(err) // fatal会立刻终止,error会报错但是不会终止
-		}
-		testCases = append(testCases, td)
+	tests, genErr := generateRandomSlice(_testEleLens)
+	if genErr != nil {
+		t.Fatal(genErr)
 	}
-	for ix, sl := range testCases {
-		util.MyConcurrentQSortWithChannelTaskQueue(sl)
-		verify(t, ix, sl)
+	for ix, tt := range tests {
+		util.MyConcurrentQSortWithChannelTaskQueue(tt)
+		verify(t, ix, tt)
 	}
 }
 func verify(t *testing.T, caseNo int, sliceToVerify []int) {
@@ -66,4 +55,16 @@ func verify(t *testing.T, caseNo int, sliceToVerify []int) {
 	if !sort.IntsAreSorted(sliceToVerify) { // 没排序好
 		t.Errorf("case %d: length %d sort invalid.", caseNo, len(sliceToVerify))
 	}
+}
+
+func generateRandomSlice(eleLens []int) ([][]int, error) {
+	var res [][]int
+	for _, l := range eleLens {
+		d, err := util.GetRandIntSliceOfLength(l)
+		if err != nil {
+			return nil, fmt.Errorf("generateRandomSlice : %w", err)
+		}
+		res = append(res, d)
+	}
+	return res, nil
 }
